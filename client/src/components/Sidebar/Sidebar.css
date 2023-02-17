@@ -1,42 +1,51 @@
 .sidebar-container {
     width: 200px;
-    height: 94%;
+    height: 100%;
+    border-radius: 40px 0 0 40px;
     background-color: black;
     color: grey;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    padding: 20px 0;
 }
 
 .sidebar-logo {
     display: flex;
-    width: 90%;
-    height: 10%;
+    width: 80%;
     justify-content: space-around;
     align-items: center;
 }
 
 .sidebar-logo img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
 }
 
 .sidebar-logo h2 {
     font-size: 16px;
     font-weight: 600;
     color: white;
+    margin: 0;
+}
+
+.sidebar-title {
+    width: 90%;
+    padding: 0 15px;
 }
 
 .sidebar-title h3 {
     font-size: 16px;
     font-weight: 500;
     margin: 0;
-    padding: 0 10px;
 }
 
-.sidebar-btns{
+.sidebar-btns {
+    width: 100%;
+}
+
+.sidebar-signout{
     width: 100%;
 }
 
