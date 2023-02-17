@@ -1,0 +1,47 @@
+.sidebar-container {
+    width: 200px;
+    height: 94%;
+    background-color: black;
+    color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 0;
+}
+
+.sidebar-logo {
+    display: flex;
+    width: 90%;
+    height: 10%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.sidebar-logo img {
+    width: 50px;
+    height: 50px;
+}
+
+.sidebar-logo h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+.sidebar-title h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.sidebar-btns{
+    width: 100%;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+}
