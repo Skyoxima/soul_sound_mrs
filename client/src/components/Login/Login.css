@@ -14,15 +14,23 @@
     align-items: center;
     flex-direction: column;
     width: 30%;
-    height: 35vh;
+    min-width: 25%;
+    height: 50vh;
     border: 1px solid red;
 }
 
 .form-input {
-    width: 70%;
+    width: 75%;
     margin: 10px 0;
     display: flex;
     justify-content: space-between;
+}
+
+.form-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .submit-btn {
