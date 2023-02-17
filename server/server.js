@@ -3,9 +3,8 @@ const express = require('express');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const cors = require("cors");
-
 const app = express();
-
+require('dotenv').config();
 // Middleware setup
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -13,7 +12,8 @@ app.use(cors());
 
 // Mongoose Setup
 // 1. Mongoose Connection
-mongoose.connect('mongodb+srv://abc123:mongodb@mycluster.ejia9i8.mongodb.net/soulsound-music', {
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.DB_ENDPOINT, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -21,6 +21,7 @@ mongoose.connect('mongodb+srv://abc123:mongodb@mycluster.ejia9i8.mongodb.net/sou
 // 2. Define Schema
 const userSchema = new mongoose.Schema({
     username: String,
+    email: String,
     password: String,
     gender: String,
     age: Number
@@ -30,23 +31,45 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // Route setup
-app.post('/signup', (req, res) => {
-    const { username, password, gender, age } = req.body.user;
-    
-    // Create Instance
-    const user = new User({
-        username: username,
-        password: password,
-        gender: gender,
-        age: age
+app.post('/signup', async (req, res) => {
+    const { username, email, password, gender, age } = req.body.user;
+    User.countDocuments({ email: email }, function (err, count) {
+        if (count > 1) {
+            return res.status(500).send({message: "User already exists."});
+        }
+        else {
+            // Create Instance
+            const user = new User({
+                username: username,
+                email: email,
+                password: password,
+                gender: gender,
+                age: age
+            });
+            // Save data
+            user.save((error) => {
+                if (error)
+                    return res.status(500).send({ message: error });
+                return res.status(200).send({ message: "User Details stored successfully" });
+            })
+        }
     });
-    // Save data
-    user.save((error) => {
-        if (error)
-            return res.status(500).send(error);
-        return res.status(200);
-    })
 });
+
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body.userLogin;
+    User.findOne({ email: email }, (err, userExists) => {
+        if (userExists && userExists.password === password) {
+            return res.send({ message: "Login Success", userDeets: userExists });
+        }
+        return res.send({ message: "Error Occured" });
+    })
+})
+
+app.get("/getUserDeets", (req, res) => {
+
+})
 
 // Server setup
 const port = process.env.PORT || 3001;
