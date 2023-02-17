@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { AUTH_URL } from '../../spotify'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +18,7 @@ function Login() {
             return;
         }
         axios.post("http://localhost:3001/login", { userLogin }).then((data) => {
-            navigate("/homepage", { state: data.data.userDeets });
+            navigate("/mainpage", { state: data.data.userDeets });
         }).catch(err => {
             console.log(err);
             navigate("/error");
@@ -48,12 +49,16 @@ function Login() {
                     <div className='form-btn'>
                         <button type='submit' className='submit-btn' onClick={(e) => {
                             handleLoginSubmit(e);
-                        }}>SUBMIT</button>
+                        }}>LOGIN</button>
                         <p>OR</p>
                         <button type='submit' className='submit-btn' onClick={(e) => {
                             navigate("/signup");
                         }}>SIGNUP</button>
                     </div>
+                    <button className='spotify-btn'>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/991px-Spotify_icon.svg.png" alt="spotify" width={"20px"} />
+                        <a href={AUTH_URL}>SPOTIFY</a>
+                    </button>
                 </form>
             </main>
         </>
