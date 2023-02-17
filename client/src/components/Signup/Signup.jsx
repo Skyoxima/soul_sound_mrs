@@ -2,29 +2,39 @@ import React from 'react';
 import './Signup.css';
 import { useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
 
-  // const [userName, setUserName] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [gender, setGender] = useState("");
-  // const [age, setAge] = useState("");
+  const navigate = useNavigate();
+
+  // Storing userDeets
   const [user, setUser] = useState({
     username: "",
+    email: "",
     password: "",
     gender: "",
     age: ""
   })
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    axios.post("http://localhost:3001/signup", { user })
-      .then(data => {
-        console.log(data);
-      }).catch(err => console.error(err))
+  // Handling Submit
+  const handleSignUpSubmit = (e) => {
+    e.preventDefault();
+    if (!user.username || !user.email || !user.password || !user.gender || !user.age) {
+      return alert("Invalid Inputs");;
+    }
+    else if (user.password.length < 5) {
+      return alert("Password should be have atleast five characters");
+    }
+    else {
+      axios.post("http://localhost:3001/signup", { user })
+        .then(data => {
+          navigate("/login");
+          console.log(data);
+        }).catch(err => console.error(err))
+    }
   }
-
-  const handleChange = (e) => {
+  // Handling Inputs
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUser({
       ...user,
@@ -35,24 +45,35 @@ function Signup() {
   return (
     <main className='signup-page'>
       <form className="signup-form">
+        <h1>SIGN-UP</h1>
         <div className='form-input'>
           <label name="userName">Username</label>
-          <input type="text" name="username" value={user.userName} onChange={handleChange} />
+          <input type="text" name="username" value={user.username} onChange={handleInputChange} placeholder="Enter your username" required />
+        </div>
+        <div className='form-input'>
+          <label name="email">Email</label>
+          <input type="email" name="email" value={user.email} onChange={handleInputChange} placeholder="Enter your email" required />
         </div>
         <div className='form-input'>
           <label name="password">Password</label>
-          <input type="password" name="password" value={user.password} onChange={handleChange} />
+          <input type="password" name="password" value={user.password} onChange={handleInputChange} placeholder="Enter your password" required />
         </div>
         <div className='form-input'>
           <label name="gender">Gender</label>
-          <input value={user.gender} name="gender" onChange={handleChange}></input>
+          <input value={user.gender} name="gender" onChange={handleInputChange} placeholder="Enter your gender"></input>
         </div>
         <div className='form-input'>
           <label name="age">Age</label>
-          <input type="number" value={user.age} name="age" onChange={handleChange} />
+          <input type="number" value={user.age} name="age" onChange={handleInputChange} placeholder="Enter your age" />
         </div>
-        <div>
-          <button type='submit' className='submit-btn' onClick={handleSubmit}>SUBMIT</button>
+        <div className='form-btn'>
+          <button type='submit' className='submit-btn' onClick={(e) => {
+            handleSignUpSubmit(e);
+          }}>SIGNUP</button>
+          <p>OR</p>
+          <button type='submit' className='submit-btn' onClick={(e) => {
+            navigate("/login");
+          }}>LOGIN</button>
         </div>
       </form>
     </main>

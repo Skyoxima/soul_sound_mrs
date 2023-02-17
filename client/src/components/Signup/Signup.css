@@ -14,7 +14,8 @@
     align-items: center;
     flex-direction: column;
     width: 30%;
-    height: 35vh;
+    min-height: 35vh;
+    padding: 15px 0;
     border: 1px solid red;
 }
 
@@ -25,13 +26,20 @@
     justify-content: space-between;
 }
 
-.form-input input{
+.form-input input {
     width: 50%;
+}
+
+.form-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .submit-btn {
     padding: 10px 20px;
-    margin: 10px 0;
+    margin: 5px 0;
     border-radius: 20px;
     cursor: pointer;
 }
