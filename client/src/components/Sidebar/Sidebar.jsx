@@ -14,7 +14,10 @@ function Sidebar() {
   const [currUser, setCurrUser] = useState(null);
   useEffect(() => {
     apiClient.get("https://api.spotify.com/v1/me").then((response) => {
-      setImage(response.data.images[0].url);
+      // setImage(response.data.images[0]);
+      if (response.data.images.length > 0) {
+        setImage(response.data.images[0].url)
+      }
       setCurrUser(response.data.display_name);
     });
   }, []);
@@ -23,7 +26,7 @@ function Sidebar() {
       <div className='sidebar-logo'>
         <img src={image} alt="system-logo" />
         {/* <img src="https://png.pngtree.com/png-clipart/20210930/ourlarge/pngtree-alien-logo-hip-style-with-red-headphones-png-image_3963351.png" alt="system-logo" /> */}
-        <h2>{currUser}</h2>
+        <p style={{ fontSize: "14px", color: "white", fontWeight: "bold" }}>{currUser}</p>
       </div>
       <div className='sidebar-btns'>
         <div className='sidebar-title'>

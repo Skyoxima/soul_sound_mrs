@@ -46,7 +46,8 @@ function App() {
                   <Route path='/albums' element={<Albums />} />
                   <Route path='/artists' element={<Artists />} />
                   <Route path='/favorites' element={<Favorites />} />
-                  <Route path='*' element={<ErrorPage />} />
+                  {/* <Route path="/logout" element={<Link to="/" />} /> */}
+                  {/* <Route path='*' element={<ErrorPage />} /> */}
                 </Routes>
               </div>
             </div>

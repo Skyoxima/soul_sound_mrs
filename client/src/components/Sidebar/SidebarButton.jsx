@@ -6,8 +6,10 @@ import "./SidebarButton.css";
 
 function SidebarButton(props) {
     const location = useLocation(); // used to check which url is currently active
-    if(location.pathname === "/logout"){
+    
+    if (location.pathname === "/logout") {
         window.localStorage.removeItem("token");
+        window.location = window.location.origin
     }
 
     const isActive = location.pathname === props.to;
