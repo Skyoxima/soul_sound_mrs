@@ -1,12 +1,14 @@
 import './App.css';
 import Login from './components/Login/Login';
-// import Signup from './components/Signup/Signup';
-import MainPage from './components/MainPage/MainPage';
-// import ErrorPage from './components/ErrorPage/ErrorPage';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import { setClientToken } from './spotify';
 import { useEffect, useState } from 'react';
 import Favorites from './components/MainPage/Favorites/Favorites';
+import Sidebar from './components/Sidebar/Sidebar';
+import Searchbar from './components/MainPage/Searchbar/Searchbar';
+import Albums from './components/MainPage/Albums/Albums';
+import Artists from './components/MainPage/Artists/Artists';
 
 function App() {
   const [token, setToken] = useState("");
@@ -32,17 +34,28 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path='/' element={!token ? (<Login />) : (<MainPage />)} />
-          <Route path='/login' element={<Login />} />
-          {/* <Route path='/signup' element={<Signup />} /> */}
-          <Route path='/home' element={<MainPage />} />
-          {/* <Route path='*' element={<ErrorPage />} /> */}
-          <Route path='/favorites' element={<Favorites />} />
-        </Routes>
-      </Router>
-    </div>
+      {(!token) ? (<Login />) : (
+        <>
+          <Router>
+            <div className='main-page'>
+              <Sidebar />
+              <div className='center'>
+                <Searchbar />
+                <Routes>
+                  <Route path='/' element={!token ? (<Link to="/login" />) : (<Link to="/" />)} />
+                  <Route path='/albums' element={<Albums />} />
+                  <Route path='/artists' element={<Artists />} />
+                  <Route path='/favorites' element={<Favorites />} />
+                  <Route path='*' element={<ErrorPage />} />
+                </Routes>
+              </div>
+            </div>
+          </Router>
+        </>
+      )
+      }
+
+    </div >
   );
 }
 

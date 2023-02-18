@@ -3,7 +3,7 @@ import '../Sidebar/Sidebar.css';
 import SidebarButton from './SidebarButton';
 
 import { MdFavorite } from "react-icons/md";
-import { FaGripfire, FaPlay } from "react-icons/fa";
+import { FaGripfire } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
 import { IoLibrary } from "react-icons/io5";
 import { MdSpaceDashboard } from "react-icons/md";
@@ -30,7 +30,7 @@ function Sidebar() {
           <h3>Menu</h3>
         </div>
         <div>
-          <SidebarButton title="Home" to="/home" icon={<MdSpaceDashboard />} />
+          <SidebarButton title="Home" to="/" icon={<MdSpaceDashboard />} />
           <SidebarButton title="Albums" to="/albums" icon={<IoLibrary />} />
           {/* <SidebarButton title="Player" to="/player" icon={<FaPlay />} /> */}
           <SidebarButton title="Artists" to="/artists" icon={<FaGripfire />} />
