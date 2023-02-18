@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './Login.css';
 import { AUTH_URL } from '../../spotify'
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [userLogin, setUserLogin] = useState({
         email: "",
         password: "",
@@ -18,10 +18,11 @@ function Login() {
             return;
         }
         axios.post("http://localhost:3001/login", { userLogin }).then((data) => {
-            navigate("/mainpage", { state: data.data.userDeets });
+            // navigate("/mainpage", { state: data.data.userDeets });
+            console.log(data.data);
         }).catch(err => {
             console.log(err);
-            navigate("/error");
+            // navigate("/error");
         })
     }
     // Handling Inputs
@@ -52,7 +53,7 @@ function Login() {
                         }}>LOGIN</button>
                         <p>OR</p>
                         <button type='submit' className='submit-btn' onClick={(e) => {
-                            navigate("/signup");
+                            // navigate("/signup");
                         }}>SIGNUP</button>
                     </div>
                     <button className='spotify-btn'>

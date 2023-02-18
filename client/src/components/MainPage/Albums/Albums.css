@@ -1,11 +1,10 @@
-.favorites {
+.albums {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
 }
 
-.favorites-content {
+.albums-content {
     width: 95%;
     height: 95%;
     padding: 4% 3%;
@@ -13,21 +12,22 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
     overflow-y: auto;
+    gap: 20px;
 }
 
-.favorites-content::-webkit-scrollbar {
+.albums-content::-webkit-scrollbar {
     display: none;
 }
 
-.favorite-card {
+.album-card {
     position: relative;
     min-width: 20%;
-    max-width: 20%;
-    height: 50%;
-    padding: 10px 0;
+    max-width: 15%;
+    max-height: 52%;
     border-radius: 20px;
     background-color: rgb(30, 42, 62);
     border: 1px solid rgba(54, 69, 98, 0.18);
+    padding: 1%;
     background: rgb(30, 42, 62);
     background: linear-gradient(75deg,
             rgb(40, 58, 88) 0%,
@@ -35,36 +35,28 @@
     transition: all 0.2s ease;
     cursor: pointer;
     transition: 0.4s ease-in;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
 }
 
-.favorite-card:hover {
+.album-card:hover {
     transform: scale(1.1);
 }
 
-.favorite-card:hover .favorite-fade {
+.album-card:hover .album-fade {
     opacity: 1;
 }
 
-.favorite-card img {
-    width: 80%;
-}
-
-.favorite-image {
+.album-image {
+    min-width: 80%;
+    width: 100%;
     aspect-ratio: 1;
     border-radius: 15px;
 }
 
-.favorite-title {
+.album-title {
     font-weight: 800;
-    font-size: 14px;
+    font-size: 16px;
     color: #c4d0e3;
     margin: 10px 0px 10px;
-    padding: 5px;
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -73,14 +65,14 @@
     -webkit-box-orient: vertical;
 }
 
-.favorite-subtitle {
+.album-subtitle {
     font-weight: 400;
     font-size: 12px;
     margin: 0px;
     color: #c4d0e37c;
 }
 
-.favorite-fade {
+.album-fade {
     position: absolute;
     right: 0;
     bottom: 0;

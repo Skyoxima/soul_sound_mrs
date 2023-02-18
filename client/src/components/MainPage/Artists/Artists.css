@@ -1,11 +1,11 @@
-.favorites {
+.artists {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
 }
 
-.favorites-content {
+.artists-content {
     width: 95%;
     height: 95%;
     padding: 4% 3%;
@@ -15,15 +15,15 @@
     overflow-y: auto;
 }
 
-.favorites-content::-webkit-scrollbar {
+.artists-content::-webkit-scrollbar {
     display: none;
 }
 
-.favorite-card {
+.artist-card {
     position: relative;
-    min-width: 20%;
+    min-width: 10%;
     max-width: 20%;
-    height: 50%;
+    max-height: 30%;
     padding: 10px 0;
     border-radius: 20px;
     background-color: rgb(30, 42, 62);
@@ -38,33 +38,32 @@
     margin: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
-.favorite-card:hover {
+.artist-card:hover {
     transform: scale(1.1);
 }
 
-.favorite-card:hover .favorite-fade {
+.artist-card:hover .artist-fade {
     opacity: 1;
 }
 
-.favorite-card img {
+.artist-card img {
     width: 80%;
 }
 
-.favorite-image {
+.artist-image {
     aspect-ratio: 1;
     border-radius: 15px;
 }
 
-.favorite-title {
+.artist-title {
     font-weight: 800;
     font-size: 14px;
     color: #c4d0e3;
     margin: 10px 0px 10px;
-    padding: 5px;
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -73,14 +72,14 @@
     -webkit-box-orient: vertical;
 }
 
-.favorite-subtitle {
+.artist-subtitle {
     font-weight: 400;
     font-size: 12px;
     margin: 0px;
     color: #c4d0e37c;
 }
 
-.favorite-fade {
+.artist-fade {
     position: absolute;
     right: 0;
     bottom: 0;
