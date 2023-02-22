@@ -3,6 +3,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.85);
     display: flex;
+    justify-content: space-between;
 }
 
 .left {
@@ -11,6 +12,30 @@
 
 .center {
     width: 60%;
-    padding: 10px;
     color: grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.right{
+    width: 25%;
+    color: white;
+    border: 1px solid white;
+}
+
+h2{
+    margin: 5px 0;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: hidden;
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto;
 }

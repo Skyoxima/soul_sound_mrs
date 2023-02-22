@@ -7,7 +7,7 @@ function Albums() {
     const [albums, setAlbums] = useState(null);
     useEffect(() => {
         apiClient.get("me/albums").then((res) => {
-            console.log(res.data.items);
+            setAlbums(res.data.items);
         })
     }, [])
 
@@ -37,7 +37,6 @@ function Albums() {
                 ))}
             </div>
         </div>
-
     )
 }
 

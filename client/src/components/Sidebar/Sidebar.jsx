@@ -15,9 +15,8 @@ function Sidebar() {
   useEffect(() => {
     apiClient.get("https://api.spotify.com/v1/me").then((response) => {
       // setImage(response.data.images[0]);
-      if (response.data.images.length > 0) {
+      if (response.data.images.length > 0)
         setImage(response.data.images[0].url)
-      }
       setCurrUser(response.data.display_name);
     });
   }, []);
@@ -25,15 +24,14 @@ function Sidebar() {
     <div className='sidebar-container'>
       <div className='sidebar-logo'>
         <img src={image} alt="system-logo" />
-        {/* <img src="https://png.pngtree.com/png-clipart/20210930/ourlarge/pngtree-alien-logo-hip-style-with-red-headphones-png-image_3963351.png" alt="system-logo" /> */}
-        <p style={{ fontSize: "14px", color: "white", fontWeight: "bold" }}>{currUser}</p>
+        <p>{currUser}</p>
       </div>
-      <div className='sidebar-btns'>
+      <div className='sidebar-body'>
         <div className='sidebar-title'>
           <h3>Menu</h3>
         </div>
-        <div>
-          <SidebarButton title="Home" to="/" icon={<MdSpaceDashboard />} />
+        <div className='sidebar-btns'>
+          <SidebarButton title="Home" to="/home" icon={<MdSpaceDashboard />} />
           <SidebarButton title="Albums" to="/albums" icon={<IoLibrary />} />
           {/* <SidebarButton title="Player" to="/player" icon={<FaPlay />} /> */}
           <SidebarButton title="Artists" to="/artists" icon={<FaGripfire />} />

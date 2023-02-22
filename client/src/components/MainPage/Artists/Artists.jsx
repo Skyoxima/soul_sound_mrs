@@ -15,25 +15,26 @@ function Artists() {
     }, [])
 
     return (
-        <div className="artists">
-            <h2>Artists</h2>
+        <div className="main-container">
             <div className="artists-content">
-                {artists?.map((artist) => (
-                    <div className="artist-card" key={artist.id}>
-                        <img
-                            src={artist.images[0].url}
-                            className="artist-image"
-                            alt="artist-Art"
-                        />
-                        <p className="artist-title">{artist.name}</p>
-                        {/* <p className="artist-subtitle">{artist.tracks.total} Songs</p> */}
-                        <div className="artist-fade">
-                            <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
-                                <AiFillPlayCircle />
-                            </IconContext.Provider>
+                <h2>Artists</h2>
+                <div className='artists-cards'>
+                    {artists?.map((artist) => (
+                        <div className="artist-card" key={artist.id}>
+                            <img
+                                src={artist.images[0].url}
+                                alt="artist-Art"
+                            />
+                            <p className="artist-title">{artist.name}</p>
+                            {/* <p className="artist-subtitle">{artist.tracks.total} Songs</p> */}
+                            <div className="artist-fade">
+                                <IconContext.Provider value={{ size: "30px", color: "#E99D72" }}>
+                                    <AiFillPlayCircle />
+                                </IconContext.Provider>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     )
