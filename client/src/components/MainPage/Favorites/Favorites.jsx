@@ -12,24 +12,26 @@ function Favorites() {
         })
     }, [])
     return (
-        <div className="favorites">
-            <h2>Favorites</h2>
+        <div className="main-container">
             <div className="favorites-content">
-                {favorites?.map((favorite) => (
-                    <div className="favorite-card" key={favorite.id}>
-                        <img
-                            src={favorite.images[0]?.url}
-                            className="favorite-image"
-                            alt="favorite-Art"
-                        />
-                        <p className="favorite-title">{favorite.name}</p>
-                        <div className="favorite-fade">
-                            <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
-                                <AiFillPlayCircle />
-                            </IconContext.Provider>
+                <h2>Favorites</h2>
+                <div className='favorite-cards'>
+                    {favorites?.map((favorite) => (
+                        <div className="favorite-card" key={favorite.id}>
+                            <img
+                                src={favorite.images[0]?.url}
+                                className="favorite-image"
+                                alt="favorite-Art"
+                            />
+                            <p className="favorite-title">{favorite.name}</p>
+                            <div className="favorite-fade">
+                                <IconContext.Provider value={{ size: "35px", color: "#E99D72" }}>
+                                    <AiFillPlayCircle />
+                                </IconContext.Provider>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     )

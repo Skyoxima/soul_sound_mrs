@@ -3,19 +3,24 @@ import { IconContext } from 'react-icons'
 import { AiFillPlayCircle } from 'react-icons/ai'
 import apiClient from '../../../spotify';
 import './Home.css';
-function Home() {
+function Home({ setCurrTrack }) {
     const [newReleases, setNewReleases] = useState(null);
     const [topCategories, setTopCategories] = useState(null);
+    const [likedSongs, setLikedSongs] = useState(null);
     useEffect(() => {
         apiClient.get("browse/new-releases?limit=5").then((res) => {
-            console.log(res.data.albums.items);
             setNewReleases(res.data.albums.items);
         })
         apiClient.get("browse/categories?limit=5").then((res) => {
-            console.log(res.data.categories.items);
             setTopCategories(res.data.categories.items);
         })
+        apiClient.get('me/tracks?limit=5').then(res => {
+            setLikedSongs(res.data.items.map(item => { return item.track }));
+        })
     }, [])
+    const handlePlayTrack = (currSong) => {
+        setCurrTrack(currSong);
+    }
 
     return (
         <div className="main-container">
@@ -27,7 +32,7 @@ function Home() {
                         <div
                             className="homecard"
                             key={newRelease.id}
-                        // onClick={() => playPlaylist(playlist.id)}
+                            onClick={() => handlePlayTrack(newRelease)}
                         >
                             <img
                                 src={newRelease.images[0].url}
@@ -36,7 +41,7 @@ function Home() {
                             />
                             <p className="homecard-title">{newRelease.name}</p>
                             <div className="homecard-fade">
-                                <IconContext.Provider value={{ size: "30px", color: "#E99D72" }}>
+                                <IconContext.Provider value={{ size: "35px", color: "#E99D72" }}>
                                     <AiFillPlayCircle />
                                 </IconContext.Provider>
                             </div>
@@ -57,7 +62,29 @@ function Home() {
                             />
                             <p className="homecard-title">{topCategory.name}</p>
                             <div className="homecard-fade">
-                                <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
+                                <IconContext.Provider value={{ size: "35px", color: "#E99D72" }}>
+                                    <AiFillPlayCircle />
+                                </IconContext.Provider>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <h2 className='home-title'>Liked Songs</h2>
+                <div className='homecards'>
+                    {likedSongs?.map((likedSong) => (
+                        <div
+                            className="homecard"
+                            key={likedSong.id}
+                            onClick={() => handlePlayTrack(likedSong)}
+                        >
+                            <img
+                                src={likedSong.album.images[0].url}
+                                className="homecard-image"
+                                alt="Playlist-Art"
+                            />
+                            <p className="homecard-title">{likedSong.name}</p>
+                            <div className="homecard-fade">
+                                <IconContext.Provider value={{ size: "35px", color: "#E99D72" }}>
                                     <AiFillPlayCircle />
                                 </IconContext.Provider>
                             </div>

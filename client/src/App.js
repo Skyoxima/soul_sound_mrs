@@ -11,9 +11,11 @@ import Albums from './components/MainPage/Albums/Albums';
 import Artists from './components/MainPage/Artists/Artists';
 import Player from './components/MainPage/Player/Player';
 import Home from './components/MainPage/Home/Home';
+import Recommend from './components/MainPage/Recommend/Recommend';
 
 function App() {
   const [token, setToken] = useState("");
+  const [currTrack, setCurrTrack] = useState({});
 
   useEffect(() => {
     // token is generated in the website url which is required to be stored in our local storage for further use
@@ -33,7 +35,6 @@ function App() {
       setClientToken(token);
     }
   }, []);
-
   return (
     <div className="App">
       {(!token) ? (<Login />) : (
@@ -47,7 +48,7 @@ function App() {
                 <Searchbar />
                 <Routes>
                   <Route path='/' element={!token ? (<Link to="/login" />) : (<Home />)} />
-                  <Route path='/home' element={<Home />} />
+                  <Route path='/home' element={<Home setCurrTrack={setCurrTrack} />} />
                   <Route path='/albums' element={<Albums />} />
                   <Route path='/artists' element={<Artists />} />
                   <Route path='/favorites' element={<Favorites />} />
@@ -56,7 +57,8 @@ function App() {
                 </Routes>
               </div>
               <div className='right'>
-                <Player />
+                <Player currTrack={currTrack} />
+                <Recommend />
               </div>
             </div>
           </Router>
