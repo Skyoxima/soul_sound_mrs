@@ -1,6 +1,6 @@
 import './App.css';
 import Login from './components/Login/Login';
-import ErrorPage from './components/ErrorPage/ErrorPage';
+// import ErrorPage from './components/ErrorPage/ErrorPage';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import { setClientToken } from './spotify';
 import { useEffect, useState } from 'react';
@@ -45,7 +45,7 @@ function App() {
                 <Sidebar />
               </div>
               <div className='center'>
-                <Searchbar />
+                <Searchbar setCurrTrack={setCurrTrack} />
                 <Routes>
                   <Route path='/' element={!token ? (<Link to="/login" />) : (<Home />)} />
                   <Route path='/home' element={<Home setCurrTrack={setCurrTrack} />} />

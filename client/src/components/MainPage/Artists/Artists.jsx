@@ -27,11 +27,6 @@ function Artists() {
                             />
                             <p className="artist-title">{artist.name}</p>
                             {/* <p className="artist-subtitle">{artist.tracks.total} Songs</p> */}
-                            <div className="artist-fade">
-                                <IconContext.Provider value={{ size: "30px", color: "#E99D72" }}>
-                                    <AiFillPlayCircle />
-                                </IconContext.Provider>
-                            </div>
                         </div>
                     ))}
                 </div>

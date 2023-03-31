@@ -26,6 +26,23 @@ function Home({ setCurrTrack }) {
         <div className="main-container">
             <div className="home-content">
                 <h2>Home</h2>
+                <h2 className='home-title'>Liked Songs</h2>
+                <div className='homecards'>
+                    {likedSongs?.map((likedSong) => (
+                        <div
+                            className="homecard"
+                            key={likedSong.id}
+                            onClick={() => handlePlayTrack(likedSong)}
+                        >
+                            <img
+                                src={likedSong.album.images[0].url}
+                                className="homecard-image"
+                                alt="Playlist-Art"
+                            />
+                            <p className="homecard-title">{likedSong.name}</p>
+                        </div>
+                    ))}
+                </div>
                 <h2 className='home-title'>Top Releases</h2>
                 <div className='homecards'>
                     {newReleases?.map((newRelease) => (
@@ -35,16 +52,11 @@ function Home({ setCurrTrack }) {
                             onClick={() => handlePlayTrack(newRelease)}
                         >
                             <img
-                                src={newRelease.images[0].url}
+                                src={newRelease.images[0]?.url}
                                 className="homecard-image"
                                 alt="Playlist-Art"
                             />
                             <p className="homecard-title">{newRelease.name}</p>
-                            <div className="homecard-fade">
-                                <IconContext.Provider value={{ size: "35px", color: "#E99D72" }}>
-                                    <AiFillPlayCircle />
-                                </IconContext.Provider>
-                            </div>
                         </div>
                     ))}
                 </div>
@@ -61,33 +73,6 @@ function Home({ setCurrTrack }) {
                                 alt="Playlist-Art"
                             />
                             <p className="homecard-title">{topCategory.name}</p>
-                            <div className="homecard-fade">
-                                <IconContext.Provider value={{ size: "35px", color: "#E99D72" }}>
-                                    <AiFillPlayCircle />
-                                </IconContext.Provider>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <h2 className='home-title'>Liked Songs</h2>
-                <div className='homecards'>
-                    {likedSongs?.map((likedSong) => (
-                        <div
-                            className="homecard"
-                            key={likedSong.id}
-                            onClick={() => handlePlayTrack(likedSong)}
-                        >
-                            <img
-                                src={likedSong.album.images[0].url}
-                                className="homecard-image"
-                                alt="Playlist-Art"
-                            />
-                            <p className="homecard-title">{likedSong.name}</p>
-                            <div className="homecard-fade">
-                                <IconContext.Provider value={{ size: "35px", color: "#E99D72" }}>
-                                    <AiFillPlayCircle />
-                                </IconContext.Provider>
-                            </div>
                         </div>
                     ))}
                 </div>

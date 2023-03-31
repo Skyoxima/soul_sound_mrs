@@ -67,10 +67,6 @@ app.post("/login", (req, res) => {
     })
 })
 
-app.get("/getUserDeets", (req, res) => {
-
-})
-
 // Server setup
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
