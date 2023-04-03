@@ -15,7 +15,7 @@ import Recommend from './components/MainPage/Recommend/Recommend';
 
 function App() {
   const [token, setToken] = useState("");
-  const [currTrack, setCurrTrack] = useState({});
+  const [currTrack, setCurrTrack] = useState(null);
 
   useEffect(() => {
     // token is generated in the website url which is required to be stored in our local storage for further use

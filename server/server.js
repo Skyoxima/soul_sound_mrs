@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const csvtojson = require('csvtojson');
+
 const app = express();
 require('dotenv').config();
 // Middleware setup
@@ -35,7 +37,7 @@ app.post('/signup', async (req, res) => {
     const { username, email, password, gender, age } = req.body.user;
     User.countDocuments({ email: email }, function (err, count) {
         if (count > 1) {
-            return res.status(500).send({message: "User already exists."});
+            return res.status(500).send({ message: "User already exists." });
         }
         else {
             // Create Instance
@@ -66,6 +68,36 @@ app.post("/login", (req, res) => {
         return res.send({ message: "Error Occured" });
     })
 })
+
+app.get('/csvdata', (req, res) => {
+    csvtojson()
+        .fromFile('./mrs_data_v1.csv')
+        .then((json) => {
+            res.json(json);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Error reading CSV file');
+        });
+});
+
+app.get('/csvdata/:id', (req, res) => {
+    var id = req.params.id;
+    console.log(id);
+    csvtojson()
+        .fromFile('./mrs_data_v1.csv')
+        .then((data) => {
+            // console.log(id);
+            const filterById = data.filter((d) => {
+                if (d['track_id'] === id) return (d);
+            })
+            res.send(filterById);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Error reading CSV file');
+        });
+});
 
 // Server setup
 const port = process.env.PORT || 3001;

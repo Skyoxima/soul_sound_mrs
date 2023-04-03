@@ -1,7 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { IconContext } from 'react-icons';
-import { AiFillPlayCircle } from 'react-icons/ai';
 import './Albums.css';
 // import apiClient from '../../../spotify';
 
@@ -25,8 +23,8 @@ function Albums() {
                     // onClick={() => playPlaylist(playlist.id)}
                     >
                         <img
-                            // src={album.images[0].url}
-                            src={"https://img.freepik.com/free-icon/user_318-804790.jpg"}
+                            src={album?.image[2]?.link}
+                            // src={"https://img.freepik.com/free-icon/user_318-804790.jpg"}
                             className="album-image"
                             alt="Playlist-Art"
                             width={"100px"}
