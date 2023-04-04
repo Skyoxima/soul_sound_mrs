@@ -16,21 +16,24 @@
 }
 
 .homecards {
-    display: flex;
+    /* Slider Changes*/
+    /* display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: center; */
     margin: 10px 0;
 }
 
 .homecard {
-    position: relative;
-    width: 100%;
+    /* Slider Changes*/
+    width: 85%;
+    min-height: 25vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    margin: 15px 0;
     border-radius: 20px;
-    margin: 0 10px;
+    /* margin: 0 10px; */
     border: 1px solid rgba(54, 69, 98, 0.18);
     background: linear-gradient(75deg,
             rgb(40, 58, 88) 0%,

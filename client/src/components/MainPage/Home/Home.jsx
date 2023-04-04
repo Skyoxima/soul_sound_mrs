@@ -2,10 +2,24 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { currTrackContext } from '../../../App';
 import './Home.css';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function Home() {
     const [charts, setCharts] = useState([]);
     const { setCurrTrack } = useContext(currTrackContext);
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 5000,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: true,
+        arrows: true,
+        autoplaySpeed: 3000,
+        pauseOnHover: true,
+    };
     useEffect(() => {
         // SPOTIFY CODE
         // apiClient.get("browse/new-releases?limit=5").then((res) => {
@@ -29,7 +43,7 @@ function Home() {
                         const chartId = ele.id;
                         const chartTitle = ele.title;
                         axios.get(`https://saavn.me/playlists?id=${chartId}`).then(response => {
-                            setCharts(prevState => [...prevState, { title: chartTitle, songs: response.data.data.songs.slice(0, 5) }]);
+                            setCharts(prevState => [...prevState, { title: chartTitle, songs: response.data.data.songs.slice(0, 10) }]);
                         })
                     })
                 })
@@ -59,28 +73,27 @@ function Home() {
                     return (<>
                         <h2 className='home-title'>{chart.title}</h2>
                         <div className='homecards' key={chart.title}>
-                            {chart.songs?.map((song) => {
-                                return (
-                                    <div
-                                        className="homecard"
-                                        key={song.id}
-                                        onClick={() => {
-                                            handlePlayTrack(song);
-                                        }}
-                                    >
-                                        <img
-                                            src={song?.image[2]?.link}
-                                            className="homecard-image"
-                                            alt="Playlist-Art"
-                                        />
-                                        <p className="homecard-title">{song.name}</p>
+                            <Slider {...settings}>
+                                {chart.songs?.map((song) => (
+                                    <div>
+                                        <div
+                                            className="homecard"
+                                            key={song.id}
+                                            onClick={() => handlePlayTrack(song)}
+                                        >
+                                            <img
+                                                src={song?.image[2]?.link}
+                                                className="homecard-image"
+                                                alt="homecard"
+                                            />
+                                            <p className="homecard-title">{song.name}</p>
+                                        </div>
                                     </div>
-                                )
-                            })}
+                                ))}
+                            </Slider>
                         </div>
                     </>)
                 })}
-
 
 
 
