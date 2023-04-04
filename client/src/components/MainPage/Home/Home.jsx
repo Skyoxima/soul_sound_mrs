@@ -1,11 +1,13 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-
+import React, { useContext, useEffect, useState } from 'react'
+import { currTrackContext } from '../../../App';
 import './Home.css';
-function Home({ setCurrTrack }) {
+
+function Home() {
     const [charts, setCharts] = useState([]);
+    const { setCurrTrack } = useContext(currTrackContext);
     useEffect(() => {
-    // SPOTIFY CODE
+        // SPOTIFY CODE
         // apiClient.get("browse/new-releases?limit=5").then((res) => {
         //     setNewReleases(res.data.albums.items);
         // })
@@ -16,22 +18,26 @@ function Home({ setCurrTrack }) {
         //     setLikedSongs(res.data.items.map(item => { return item.track }));
         // })
 
-    // SAAVN CODE
-        axios.get("https://saavn.me/modules?language=hindi,english")
-            .then(res => {
-                // var top10Charts = res.data.data.charts.slice(0, 10);
-                return res.data.data.charts.slice(0, 5);
-            })
-            .then(res => {
-                res.forEach(ele => {
-                    const chartId = ele.id;
-                    const chartTitle = ele.title;
-                    axios.get(`https://saavn.me/playlists?id=${chartId}`).then(response => {
-                        console.log(response.data);
-                        setCharts(prevState => [...prevState, { title: chartTitle, songs: response.data.data.songs.slice(0, 5) }])
+        // SAAVN CODE
+        if (charts.length === 0) {
+            axios.get("https://saavn.me/modules?language=hindi,english")
+                .then(res => {
+                    return res.data.data.charts.slice(0, 5);
+                })
+                .then(res => {
+                    res.forEach(ele => {
+                        const chartId = ele.id;
+                        const chartTitle = ele.title;
+                        axios.get(`https://saavn.me/playlists?id=${chartId}`).then(response => {
+                            setCharts(prevState => [...prevState, { title: chartTitle, songs: response.data.data.songs.slice(0, 5) }]);
+                        })
                     })
                 })
-            })
+        }
+        else {
+            return;
+        }
+
         // axios.get('http://localhost:3001/csvdata')
         //     .then((response) => {
         //         setAllSongs(response.data.slice(100, 105)); // the CSV data in JSON format
@@ -40,8 +46,8 @@ function Home({ setCurrTrack }) {
         //         console.log(error);
         //     });
     }, [])
+    console.log(charts);
     const handlePlayTrack = (currSong) => {
-        // axios.get(`https://saavn.me/search/albums?query=${currSong.name}`).then(res => console.log(res.data));
         setCurrTrack(currSong);
     }
     return (
@@ -52,11 +58,12 @@ function Home({ setCurrTrack }) {
                 {charts.map(chart => {
                     return (<>
                         <h2 className='home-title'>{chart.title}</h2>
-                        <div className='homecards'>
+                        <div className='homecards' key={chart.title}>
                             {chart.songs?.map((song) => {
                                 return (
                                     <div
                                         className="homecard"
+                                        key={song.id}
                                         onClick={() => {
                                             handlePlayTrack(song);
                                         }}

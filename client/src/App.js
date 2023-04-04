@@ -3,15 +3,18 @@ import Login from './components/Login/Login';
 // import ErrorPage from './components/ErrorPage/ErrorPage';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import { setClientToken } from './spotify';
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import Favorites from './components/MainPage/Favorites/Favorites';
 import Sidebar from './components/Sidebar/Sidebar';
 import Searchbar from './components/MainPage/Searchbar/Searchbar';
 import Albums from './components/MainPage/Albums/Albums';
-import Artists from './components/MainPage/Artists/Artists';
+// import Artists from './components/MainPage/Artists/Artists';
 import Player from './components/MainPage/Player/Player';
 import Home from './components/MainPage/Home/Home';
-import Recommend from './components/MainPage/Recommend/Recommend';
+import RecommendQueue from './components/MainPage/RecommendQueue/RecommendQueue';
+import Recommends from './components/MainPage/Recommends/Recommends';
+
+export const currTrackContext = createContext();
 
 function App() {
   const [token, setToken] = useState("");
@@ -44,22 +47,27 @@ function App() {
               <div className='left'>
                 <Sidebar />
               </div>
-              <div className='center'>
-                <Searchbar setCurrTrack={setCurrTrack} />
-                <Routes>
-                  <Route path='/' element={!token ? (<Link to="/login" />) : (<Home />)} />
-                  <Route path='/home' element={<Home setCurrTrack={setCurrTrack} />} />
-                  <Route path='/albums' element={<Albums />} />
-                  <Route path='/artists' element={<Artists />} />
-                  <Route path='/favorites' element={<Favorites />} />
-                  {/* <Route path="/logout" element={<Link to="/" />} /> */}
-                  {/* <Route path='*' element={<ErrorPage />} /> */}
-                </Routes>
-              </div>
-              <div className='right'>
-                <Player currTrack={currTrack} />
-                <Recommend />
-              </div>
+              <currTrackContext.Provider value={{ currTrack, setCurrTrack }}>
+                <div className='center'>
+                  <Searchbar
+                    setCurrTrack={setCurrTrack}
+                  />
+                  <Routes>
+                    <Route path='/' element={!token ? (<Link to="/login" />) : (<Home />)} />
+                    <Route path='/home' element={<Home />} />
+                    <Route path='/albums' element={<Albums />} />
+                    <Route path='/recommends' element={<Recommends />} />
+                    {/* <Route path='/artists' element={<Artists />} />  */}
+                    <Route path='/favorites' element={<Favorites />} />
+                    {/* <Route path="/logout" element={<Link to="/" />} /> */}
+                    {/* <Route path='*' element={<ErrorPage />} /> */}
+                  </Routes>
+                </div>
+                <div className='right'>
+                  <Player />
+                  <RecommendQueue />
+                </div>
+              </currTrackContext.Provider>
             </div>
           </Router>
         </>

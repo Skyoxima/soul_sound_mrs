@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { IconContext } from 'react-icons';
-import { AiFillPlayCircle } from 'react-icons/ai';
 import apiClient from '../../../spotify';
 import './Artists.css';
 

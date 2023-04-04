@@ -1,7 +1,7 @@
 import React from 'react'
-import './Recommend.css';
+import './RecommendQueue.css';
 
-function Recommend() {
+function RecommendQueue() {
     return (
         <div className="recc-container flex">
             <div className="recc flex">
@@ -23,4 +23,4 @@ function Recommend() {
     )
 }
 
-export default Recommend
+export default RecommendQueue

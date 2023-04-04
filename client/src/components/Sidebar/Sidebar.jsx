@@ -33,8 +33,7 @@ function Sidebar() {
         <div className='sidebar-btns'>
           <SidebarButton title="Home" to="/home" icon={<MdSpaceDashboard />} />
           <SidebarButton title="Albums" to="/albums" icon={<IoLibrary />} />
-          {/* <SidebarButton title="Player" to="/player" icon={<FaPlay />} /> */}
-          <SidebarButton title="Artists" to="/artists" icon={<FaGripfire />} />
+          <SidebarButton title="Recommends" to="/recommends" icon={<FaGripfire />} />
           <SidebarButton title="Favorites" to="/favorites" icon={<MdFavorite />} />
         </div>
       </div>

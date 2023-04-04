@@ -14,7 +14,7 @@ function Albums() {
 
     return (
         <div className="albums">
-            <h2>Album</h2>
+            <h2 style={{ textAlign: "left" }}>Album</h2>
             <div className="albums-content">
                 {albums?.map((album) => (
                     <div
@@ -25,7 +25,6 @@ function Albums() {
                         <img
                             src={album?.image[2]?.link}
                             // src={"https://img.freepik.com/free-icon/user_318-804790.jpg"}
-                            className="album-image"
                             alt="Playlist-Art"
                             width={"100px"}
                         />

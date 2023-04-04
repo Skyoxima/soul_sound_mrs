@@ -65,7 +65,8 @@ app.post("/login", (req, res) => {
         if (userExists && userExists.password === password) {
             return res.send({ message: "Login Success", userDeets: userExists });
         }
-        return res.send({ message: "Error Occured" });
+        else if(err)
+            return res.send({ message: "Error Occured" });
     })
 })
 
