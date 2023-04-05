@@ -26,7 +26,11 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     gender: String,
-    age: Number
+    age: Number,
+    listeningActivity: {
+        type: Array,
+        default: []
+    }
 });
 
 // 3. Define a model for user
@@ -37,7 +41,7 @@ app.post('/signup', async (req, res) => {
     const { username, email, password, gender, age } = req.body.user;
     User.countDocuments({ email: email }, function (err, count) {
         if (count > 1) {
-            return res.status(500).send({ message: "User already exists." });
+            return res.status(500).send({ message: "User already exists. Please Login" });
         }
         else {
             // Create Instance
@@ -46,7 +50,8 @@ app.post('/signup', async (req, res) => {
                 email: email,
                 password: password,
                 gender: gender,
-                age: age
+                age: age,
+                listeningActivity: [[]]
             });
             // Save data
             user.save((error) => {
@@ -65,7 +70,7 @@ app.post("/login", (req, res) => {
         if (userExists && userExists.password === password) {
             return res.send({ message: "Login Success", userDeets: userExists });
         }
-        else if(err)
+        else if (err)
             return res.send({ message: "Error Occured" });
     })
 })

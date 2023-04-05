@@ -13,13 +13,15 @@ function Sidebar() {
   const [image, setImage] = useState("https://media.istockphoto.com/id/1351686559/vector/golden-star-with-sparkle-glitter-stardust-glow.jpg?s=612x612&w=0&k=20&c=fBOD2ly32RYfj4y8JOU-B6h3RMCT5JPVK93AFGzQAjc=");
   const [currUser, setCurrUser] = useState(null);
   useEffect(() => {
-    apiClient.get("https://api.spotify.com/v1/me").then((response) => {
-      // setImage(response.data.images[0]);
-      if (response.data.images.length > 0)
-        setImage(response.data.images[0].url)
-      setCurrUser(response.data.display_name);
-    });
+    // apiClient.get("https://api.spotify.com/v1/me").then((response) => {
+    //   // setImage(response.data.images[0]);
+    //   if (response.data.images.length > 0)
+    //     setImage(response.data.images[0].url)
+      // setCurrUser(response.data.display_name);
+    // });
+    setCurrUser(localStorage.getItem("currUser"));
   }, []);
+
   return (
     <div className='sidebar-container'>
       <div className='sidebar-logo'>

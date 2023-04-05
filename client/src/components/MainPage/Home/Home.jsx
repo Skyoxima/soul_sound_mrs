@@ -5,10 +5,13 @@ import './Home.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useLocation } from 'react-router-dom';
 
 function Home() {
     const [charts, setCharts] = useState([]);
     const { setCurrTrack } = useContext(currTrackContext);
+    const { state } = useLocation();
+    localStorage.setItem("currUser", state?.username);
     const settings = {
         dots: true,
         infinite: true,

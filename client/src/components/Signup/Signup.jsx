@@ -17,7 +17,7 @@ function Signup() {
     age: ""
   })
   // Handling Submit
-  const handleSignUpSubmit = (e) => {
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     if (!user.username || !user.email || !user.password || !user.gender || !user.age) {
       return alert("Invalid Inputs");;
@@ -26,9 +26,11 @@ function Signup() {
       return alert("Password should be have atleast five characters");
     }
     else {
-      axios.post("http://localhost:3001/signup", { user })
+      await axios.post("http://localhost:3001/signup", { user })
         .then(data => {
+          localStorage.setItem("isSignupAuth", true);
           navigate("/login");
+          window.location.reload(false);
           console.log(data);
         }).catch(err => console.error(err))
     }
@@ -60,8 +62,13 @@ function Signup() {
         </div>
         <div className='form-input'>
           <label name="gender">Gender</label>
-          <input value={user.gender} name="gender" onChange={handleInputChange} placeholder="Enter your gender"></input>
+          {/* <input value={user.gender} name="gender" onChange={handleInputChange} placeholder="Enter your gender"></input> */}
+          <input type="radio" name="gender" value="male" onChange={handleInputChange}/>
+          <label for="Male">Male</label>
+          <input type="radio" name="gender" value="female" onChange={handleInputChange}/>
+          <label for="Female">Female</label>
         </div>
+
         <div className='form-input'>
           <label name="age">Age</label>
           <input type="number" value={user.age} name="age" onChange={handleInputChange} placeholder="Enter your age" />
@@ -72,7 +79,10 @@ function Signup() {
           }}>SIGNUP</button>
           <p>OR</p>
           <button type='submit' className='submit-btn' onClick={(e) => {
+            e.preventDefault();
+            localStorage.setItem("isSignupAuth", true);
             navigate("/login");
+            window.location.reload(false);
           }}>LOGIN</button>
         </div>
       </form>

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './Login.css';
 import { AUTH_URL } from '../../spotify'
 import axios from "axios";
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [userLogin, setUserLogin] = useState({
         email: "",
         password: "",
@@ -18,8 +18,14 @@ function Login() {
             return;
         }
         axios.post("http://localhost:3001/login", { userLogin }).then((data) => {
-            // navigate("/mainpage", { state: data.data.userDeets });
-            console.log(data.data);
+            // navigate("/home", { state: data.data.userDeets });
+            // localStorage.setItem("isLoginAuth", true);
+            // window.location.reload(false)
+            // console.log(data.data);
+            localStorage.setItem("isLoginAuth", true);
+            navigate("/home", { state: data.data.userDeets });
+            window.location.reload(false);
+            console.log(data);
         }).catch(err => {
             console.log(err);
             // navigate("/error");
@@ -53,13 +59,16 @@ function Login() {
                         }}>LOGIN</button>
                         <p>OR</p>
                         <button type='submit' className='submit-btn' onClick={(e) => {
-                            // navigate("/signup");
+                            e.preventDefault();
+                            localStorage.removeItem("isSignupAuth");
+                            navigate("/signup");
+                            window.location.reload(false);
                         }}>SIGNUP</button>
                     </div>
-                    <button className='spotify-btn'>
+                    {/* <button className='spotify-btn'>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/991px-Spotify_icon.svg.png" alt="spotify" width={"20px"} />
                         <a href={AUTH_URL}>SPOTIFY</a>
-                    </button>
+                    </button> */}
                 </form>
             </main>
         </>
