@@ -64,9 +64,9 @@ function Signup() {
           <label name="gender">Gender</label>
           {/* <input value={user.gender} name="gender" onChange={handleInputChange} placeholder="Enter your gender"></input> */}
           <input type="radio" name="gender" value="male" onChange={handleInputChange}/>
-          <label for="Male">Male</label>
+          <label>Male</label>
           <input type="radio" name="gender" value="female" onChange={handleInputChange}/>
-          <label for="Female">Female</label>
+          <label>Female</label>
         </div>
 
         <div className='form-input'>
