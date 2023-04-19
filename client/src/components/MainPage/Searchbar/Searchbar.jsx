@@ -11,10 +11,14 @@ function Searchbar() {
     const { setCurrTrack } = useContext(currTrackContext);
 
     useEffect(() => {
-        if (searchText.length > 0) {
-            axios.get(`https://saavn.me/search/songs?query=${searchText.replace(" ", "+")}`)
-                .then(res => {setSearchMusic(res.data.data.results[0]); console.log(res.data.data.results[0]);})
-        }
+        // When user finishes typing only then search for it
+        const timer = setTimeout(() => {
+            if (searchText.length > 0) {
+                axios.get(`https://saavn.me/search/songs?query=${searchText.replace(" ", "+")}`)
+                    .then(res => { setSearchMusic(res.data.data.results[0]); console.log(res.data.data.results[0]); })
+            }
+        }, 1000);
+        return () => clearTimeout(timer);
     }, [searchText])
 
     const handleSearchInput = (e) => {

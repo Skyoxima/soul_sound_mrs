@@ -18,11 +18,8 @@ function Login() {
             return;
         }
         axios.post("http://localhost:3001/login", { userLogin }).then((data) => {
-            // navigate("/home", { state: data.data.userDeets });
-            // localStorage.setItem("isLoginAuth", true);
-            // window.location.reload(false)
-            // console.log(data.data);
             localStorage.setItem("isLoginAuth", true);
+            localStorage.setItem("userData", JSON.stringify(data))
             navigate("/home", { state: data.data.userDeets });
             window.location.reload(false);
             console.log(data);

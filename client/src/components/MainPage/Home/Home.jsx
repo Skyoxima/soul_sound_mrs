@@ -5,36 +5,37 @@ import './Home.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const [charts, setCharts] = useState([]);
     const { setCurrTrack } = useContext(currTrackContext);
-    const { state } = useLocation();
-    localStorage.setItem("currUser", state?.username);
+    // const { state } = useLocation();
+    const [state, setState] = useState(null)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const userState = JSON.parse(localStorage.getItem("userData"))?.data?.userDeets
+        console.log(userState)
+        if (!userState) {
+            navigate("/login")
+        } else {
+            localStorage.setItem("currUser", userState?.username);
+            localStorage.setItem("currUserId", userState?._id);
+            setState(userState)
+        }
+    }, [])
+
     const settings = {
-        dots: true,
         infinite: true,
         speed: 5000,
         slidesToShow: 5,
         slidesToScroll: 1,
         autoplay: true,
-        arrows: true,
         autoplaySpeed: 3000,
         pauseOnHover: true,
     };
     useEffect(() => {
-        // SPOTIFY CODE
-        // apiClient.get("browse/new-releases?limit=5").then((res) => {
-        //     setNewReleases(res.data.albums.items);
-        // })
-        // apiClient.get("browse/categories?limit=5").then((res) => {
-        //     setTopCategories(res.data.categories.items);
-        // })
-        // apiClient.get('me/tracks?limit=5').then(res => {
-        //     setLikedSongs(res.data.items.map(item => { return item.track }));
-        // })
-
         // SAAVN CODE
         if (charts.length === 0) {
             axios.get("https://saavn.me/modules?language=hindi,english")
@@ -54,21 +55,27 @@ function Home() {
         else {
             return;
         }
-
-        // axios.get('http://localhost:3001/csvdata')
-        //     .then((response) => {
-        //         setAllSongs(response.data.slice(100, 105)); // the CSV data in JSON format
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
     }, [])
-    console.log(charts);
-    const handlePlayTrack = (currSong) => {
+    const handlePlayTrack = async (currSong) => {
         setCurrTrack(currSong);
+        var spotifyData = {}
+        await axios.get(`http://localhost:3001/song-audio-features?songName=${currSong.name}`)
+            .then(res => {
+                spotifyData = res.data;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        await axios.post("http://localhost:3001/addMusic", {
+            musicData: { ...currSong, ...spotifyData }
+        }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
     }
     return (
-        <div className="main-container">
+        state && (<div className="main-container">
             <div className="home-content">
                 <h2>Home</h2>
                 {/* OPTIMISED */}
@@ -97,79 +104,8 @@ function Home() {
                         </div>
                     </>)
                 })}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                {/* OLD CODE */}
-                {/* <h2 className='home-title'>All Songs</h2>
-                <div className='homecards'>
-                    {allSongs?.map((song) => (
-                        <div
-                            className="homecard"
-                            key={song.track_id}
-                            onClick={() => {
-                                handlePlayTrack(song);
-                            }}
-                        >
-                            <img
-                                src={song.track_image}
-                                className="homecard-image"
-                                alt="Playlist-Art"
-                            />
-                            <p className="homecard-title">{song.track_name}</p>
-                        </div>
-                    ))}
-                </div> */}
-                {/* <Carousel /> */}
-                {/* <h2 className='home-title'>Liked Songs</h2>
-                <div className='homecards'>
-                    {likedSongs?.map((likedSong) => (
-                        <div
-                            className="homecard"
-                            key={likedSong.id}
-                            onClick={() => handlePlayTrack(likedSong)}
-                        >
-                            <img
-                                src={likedSong.album.images[0].url}
-                                className="homecard-image"
-                                alt="Playlist-Art"
-                            />
-                            <p className="homecard-title">{likedSong.name}</p>
-                        </div>
-                    ))}
-                </div> */}
-                {/* <h2 className='home-title'>Top Releases</h2>
-                <div className='homecards'>
-                    {newReleases?.map((newRelease) => (
-                        <div
-                            className="homecard"
-                            key={newRelease.id}
-                            onClick={() => handlePlayTrack(newRelease)}
-                        >
-                            <img
-                                src={newRelease.images[0]?.url}
-                                className="homecard-image"
-                                alt="Playlist-Art"
-                            />
-                            <p className="homecard-title">{newRelease.name}</p>
-                        </div>
-                    ))}
-                </div> */}
             </div>
-        </div>
+        </div>)
     )
 }
 

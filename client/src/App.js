@@ -14,35 +14,19 @@ import Home from './components/MainPage/Home/Home';
 import RecommendQueue from './components/MainPage/RecommendQueue/RecommendQueue';
 import Recommends from './components/MainPage/Recommends/Recommends';
 import Signup from './components/Signup/Signup';
+import axios from 'axios';
 
 export const currTrackContext = createContext();
 
 function App() {
   const [isLoginAuth, setIsLoginAuth] = useState(false);
   const [isSignupAuth, setIsSignupAuth] = useState(false);
-  const [token, setToken] = useState("");
   const [currTrack, setCurrTrack] = useState(null);
-  useEffect(() => {
-    // // token is generated in the website url which is required to be stored in our local storage for further use
-    // const token = window.localStorage.getItem("token");
-    // // this helps us to get the access token after hash
-    // const hash = window.location.hash;
-    // // clear the hash from website url
-    // window.location.hash = "";
 
-    // if (!token && hash) {
-    //   const _token = hash.split("&")[0].split("=")[1];
-    //   window.localStorage.setItem("token", _token);
-    //   setToken(_token);
-    //   setClientToken(_token);
-    // } else {
-    //   setToken(token);
-    //   setClientToken(token);
-    // }
+  useEffect(() => {
     setIsSignupAuth(localStorage.getItem("isSignupAuth"));
     setIsLoginAuth(localStorage.getItem("isLoginAuth"));
   }, []);
-  console.log(isSignupAuth, isLoginAuth);
   return (
     <div className="App">
       <Router>

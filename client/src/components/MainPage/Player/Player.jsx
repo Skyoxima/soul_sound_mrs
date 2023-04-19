@@ -5,25 +5,40 @@ import "react-h5-audio-player/lib/styles.css";
 // import apiClient from '../../../spotify';
 import './Player.css';
 import './audioPlayer.scss'
+import axios from 'axios';
 function Player() {
-  useEffect(() => {
-    // apiClient.get(`tracks/${currTrack?.id}`).then(res => {
-    // }).catch(err => { console.log(err); })
-    // axios.get()
-  }, [])
 
-
-  const { currTrack } = useContext(currTrackContext);
+  const { currTrack, setCurrTrack } = useContext(currTrackContext);
   const noSongImage = "https://cdn.pixabay.com/photo/2016/05/24/22/54/icon-1413583_960_720.png";
+  // console.log(currTrack);
+  useEffect(() => {
+    if (currTrack) {
+      axios.post("http://localhost:3001/addMusicToListeningHistory", { currTrackId: currTrack?.id, currUserId: localStorage.getItem("currUserId") }).then(data => {
+        console.log(data);
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+    else {
+      axios.get("http://localhost:3001/getLastListenedMusic?currUserId=" + localStorage.getItem("currUserId")).then(data => {
+        axios.get("https://saavn.me/songs?id=" + data.data.lastListenedMusic).then(data => {
+          setCurrTrack(data.data.data[0])
+        })
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+  }, [currTrack])
+
   return (
     <div className="player-body">
       <div className="songImage">
         <img
-          src={currTrack?.image[2].link ? (currTrack?.image[2].link) : (noSongImage)}
+          src={currTrack?.image[2]?.link ? (currTrack?.image[2].link) : (noSongImage)}
           alt="song art" />
         <div className="songImage-shadow">
           <img
-            src={currTrack?.image[2].link ? (currTrack?.image[2].link) : (noSongImage)}
+            src={currTrack?.image[2]?.link ? (currTrack?.image[2].link) : (noSongImage)}
             alt="shadow" className="songImage-shadow" />
         </div>
       </div>
@@ -35,10 +50,6 @@ function Player() {
         </div>
       </div>
       <div className='custom-player'>
-        {/* <div style={{ "width": "100%", "height": "20vh", "display": "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-          <audio id="myAudio" src={`${currTrack?.downloadUrl[4].link}`} type="audio/mp3" controls>
-          </audio>
-        </div> */}
         <ReactAudioPlayer
           src={`${currTrack?.downloadUrl[4].link}`}
           autoPlay={false}
