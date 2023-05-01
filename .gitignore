@@ -1,2 +1,15 @@
 node_modules
 .env
+
+# FlaskApp 
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore virtual environment
+venv/
+
+# Ignore log and database files
+*.log
+*.db
