@@ -7,7 +7,7 @@ import './Recommends.css';
 function Recommends() {
   const [recommendations, setRecommendations] = useState([]);
   const { currTrack, setCurrTrack } = useContext(currTrackContext);
-  console.log(currTrack);
+
   useEffect(() => {
     axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: currTrack?.name } })
       .then(response => {

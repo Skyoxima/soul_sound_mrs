@@ -29,7 +29,7 @@ function Player() {
       })
     }
   }, [currTrack])
-
+  console.log(currTrack);
   return (
     <div className="player-body">
       <div className="songImage">

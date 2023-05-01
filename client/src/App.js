@@ -2,7 +2,6 @@ import './App.css';
 import Login from './components/Login/Login';
 // import ErrorPage from './components/ErrorPage/ErrorPage';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
-import { setClientToken } from './spotify';
 import { createContext, useEffect, useState } from 'react';
 import Favorites from './components/MainPage/Favorites/Favorites';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -14,7 +13,6 @@ import Home from './components/MainPage/Home/Home';
 import RecommendQueue from './components/MainPage/RecommendQueue/RecommendQueue';
 import Recommends from './components/MainPage/Recommends/Recommends';
 import Signup from './components/Signup/Signup';
-import axios from 'axios';
 
 export const currTrackContext = createContext();
 

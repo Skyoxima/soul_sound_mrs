@@ -111,35 +111,35 @@ app.post("/login", (req, res) => {
     })
 })
 
-app.get('/csvdata', (req, res) => {
-    csvtojson()
-        .fromFile('./mrs_data_v1.csv')
-        .then((json) => {
-            res.json(json);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send('Error reading CSV file');
-        });
-});
+// app.get('/csvdata', (req, res) => {
+//     csvtojson()
+//         .fromFile('./mrs_data_v1.csv')
+//         .then((json) => {
+//             res.json(json);
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//             res.status(500).send('Error reading CSV file');
+//         });
+// });
 
-app.get('/csvdata/:id', (req, res) => {
-    var id = req.params.id;
-    console.log(id);
-    csvtojson()
-        .fromFile('./mrs_data_v1.csv')
-        .then((data) => {
-            // console.log(id);
-            const filterById = data.filter((d) => {
-                if (d['track_id'] === id) return (d);
-            })
-            res.send(filterById);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send('Error reading CSV file');
-        });
-});
+// app.get('/csvdata/:id', (req, res) => {
+//     var id = req.params.id;
+//     console.log(id);
+//     csvtojson()
+//         .fromFile('./mrs_data_v1.csv')
+//         .then((data) => {
+//             // console.log(id);
+//             const filterById = data.filter((d) => {
+//                 if (d['track_id'] === id) return (d);
+//             })
+//             res.send(filterById);
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//             res.status(500).send('Error reading CSV file');
+//         });
+// });
 
 // Define a route for getting the audio features of a song
 app.get('/song-audio-features', (req, res) => {
@@ -202,6 +202,9 @@ app.post("/addMusic", (req, res) => {
         tempo,
         time_signature,
         valence } = req.body.musicData;
+    if (name.includes('&quot;')) {
+        name = name.replace(/&quot;/g, "'");
+    }
     Music.findOne({ track_id: id }, (err, trackExists) => {
         if (!trackExists) {
             const music = new Music({
