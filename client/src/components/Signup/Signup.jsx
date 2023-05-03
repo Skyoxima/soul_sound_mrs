@@ -32,7 +32,9 @@ function Signup() {
           navigate("/login");
           window.location.reload(false);
           console.log(data);
-        }).catch(err => console.error(err))
+        }).catch(err => {
+          alert(err.response.data.message);
+        })
     }
   }
   // Handling Inputs
@@ -63,9 +65,9 @@ function Signup() {
         <div className='form-input'>
           <label name="gender">Gender</label>
           {/* <input value={user.gender} name="gender" onChange={handleInputChange} placeholder="Enter your gender"></input> */}
-          <input type="radio" name="gender" value="male" onChange={handleInputChange}/>
+          <input type="radio" name="gender" value="male" onChange={handleInputChange} />
           <label>Male</label>
-          <input type="radio" name="gender" value="female" onChange={handleInputChange}/>
+          <input type="radio" name="gender" value="female" onChange={handleInputChange} />
           <label>Female</label>
         </div>
 

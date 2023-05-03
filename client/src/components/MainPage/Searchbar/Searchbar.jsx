@@ -29,7 +29,7 @@ function Searchbar() {
         <div className='search-box'>
             <input type="text" placeholder='🔍 Search...' value={searchText} onChange={(e) => { handleSearchInput(e) }} />
             <button onClick={() => { setCurrTrack(searchMusic); setSearchText(""); }}>Submit</button>
-            <ToggleTheme />
+            {/* <ToggleTheme /> */}
         </div>
     )
 }

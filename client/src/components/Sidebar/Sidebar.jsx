@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import '../Sidebar/Sidebar.css';
 import SidebarButton from './SidebarButton';
-
-import { MdFavorite } from "react-icons/md";
 import { FaGripfire } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
 import { IoLibrary } from "react-icons/io5";
 import { MdSpaceDashboard } from "react-icons/md";
-import apiClient from '../../spotify';
 
 function Sidebar() {
   const [image, setImage] = useState("https://media.istockphoto.com/id/1351686559/vector/golden-star-with-sparkle-glitter-stardust-glow.jpg?s=612x612&w=0&k=20&c=fBOD2ly32RYfj4y8JOU-B6h3RMCT5JPVK93AFGzQAjc=");
   const [currUser, setCurrUser] = useState(null);
   useEffect(() => {
-    setCurrUser(localStorage.getItem("currUser"));
+    const interval = setInterval(() => {
+      setCurrUser(localStorage.getItem("currUser"));
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -30,7 +30,7 @@ function Sidebar() {
           <SidebarButton title="Home" to="/home" icon={<MdSpaceDashboard />} />
           <SidebarButton title="Albums" to="/albums" icon={<IoLibrary />} />
           <SidebarButton title="Recommends" to="/recommends" icon={<FaGripfire />} />
-          <SidebarButton title="Favorites" to="/favorites" icon={<MdFavorite />} />
+          {/* <SidebarButton title="Favorites" to="/favorites" icon={<MdFavorite />} /> */}
         </div>
       </div>
       <div className='sidebar-signout'>

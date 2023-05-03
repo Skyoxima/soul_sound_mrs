@@ -14,7 +14,6 @@ function Player() {
   useEffect(() => {
     if (currTrack) {
       axios.post("http://localhost:3001/addMusicToListeningHistory", { currTrackId: currTrack?.id, currUserId: localStorage.getItem("currUserId") }).then(data => {
-        console.log(data);
       }).catch(err => {
         console.log(err);
       })
@@ -29,7 +28,7 @@ function Player() {
       })
     }
   }, [currTrack])
-  console.log(currTrack);
+
   return (
     <div className="player-body">
       <div className="songImage">

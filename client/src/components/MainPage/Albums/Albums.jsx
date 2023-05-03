@@ -13,24 +13,27 @@ function Albums() {
     }, [])
 
     return (
-        <div className="albums">
-            <h2 style={{ textAlign: "left" }}>Album</h2>
-            <div className="albums-content">
-                {albums?.map((album) => (
-                    <div
-                        className="album-card"
-                        key={album?.id}
-                    // onClick={() => playPlaylist(playlist.id)}
-                    >
-                        <img
-                            src={album?.image[2]?.link}
-                            // src={"https://img.freepik.com/free-icon/user_318-804790.jpg"}
-                            alt="Playlist-Art"
-                            width={"100px"}
-                        />
-                        <p className="album-title">{album?.name}</p>
-                    </div>
-                ))}
+        <div className="main-container">
+            <div className="albums">
+                <h2 style={{ textAlign: "left" }}>Album</h2>
+                <div className="albums-content">
+                    {albums?.map((album) => (
+                        <div
+                            className="album-card"
+                            key={album?.id}
+                        // onClick={() => playPlaylist(playlist.id)}
+                        >
+                            <img
+                                className="albumcard-image"
+                                src={album?.image[2]?.link}
+                                // src={"https://img.freepik.com/free-icon/user_318-804790.jpg"}
+                                alt="Playlist-Art"
+                                width={"100px"}
+                            />
+                            <p className="album-title">{album?.name}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )

@@ -41,7 +41,7 @@ function RecommendQueue() {
                             onClick={() => { handleReccClick(track) }}
                         >
                             <p className="track-name">{track?.track_name}</p>
-                            <p>{convertDuration(`${track?.duration_ms}`)}</p>
+                            <p>{0 + convertDuration(`${track?.duration_ms}`)}</p>
                             {/* <p>{`0${Math.floor((track?.duration_ms) / (1000 * 60) % 60)}:${Math.floor(((track?.duration_ms)) % 60)}`}</p> */}
                         </div>
                     ))}
