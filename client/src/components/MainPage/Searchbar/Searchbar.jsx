@@ -24,7 +24,7 @@ function Searchbar() {
     const handleSearchInput = (e) => {
         setSearchText(e.target.value);
     }
-
+    
     return (
         <div className='search-box'>
             <input type="text" placeholder='🔍 Search...' value={searchText} onChange={(e) => { handleSearchInput(e) }} />

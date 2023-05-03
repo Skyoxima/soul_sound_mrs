@@ -3,11 +3,12 @@ const express = require('express');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const csvtojson = require('csvtojson');
 const SpotifyWebApi = require('spotify-web-api-node');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 require('dotenv').config();
+
 // Middleware setup
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -73,73 +74,107 @@ const User = mongoose.model('User', userSchema, 'users');
 const Music = mongoose.model('Music', musicSchema, 'music');
 
 // Route setup
+// app.post('/signup', async (req, res) => {
+//     const { username, email, password, gender, age } = req.body.user;
+//     User.findOne({ email: email }, function (err, emailExists) {
+//         if (emailExists) {
+//             return res.status(500).send({ message: "User already exists. Please Login" });
+//         }
+//         else {
+//             // Create Instance
+//             const user = new User({
+//                 username: username,
+//                 email: email,
+//                 password: password,
+//                 gender: gender,
+//                 age: age,
+//             });
+//             // Save data
+//             user.save((error) => {
+//                 if (error)
+//                     return res.status(500).send({ message: error });
+//                 return res.status(200).send({ message: "User Details stored successfully" });
+//             })
+//         }
+//     });
+// });
+// app.post("/login", (req, res) => {
+//     const { email, password } = req.body.userLogin;
+//     User.findOne({ email: email }, (err, userExists) => {
+//         if (userExists && userExists.password === password) {
+//             return res.status(200).send({ message: "Login Success", userDeets: userExists });
+//         }
+//         else if (err)
+//             return res.status(500).send({ message: "Error Occured" });
+//     })
+// })
+
 app.post('/signup', async (req, res) => {
-    const { username, email, password, gender, age } = req.body.user;
-    User.findOne({ email: email }, function (err, emailExists) {
+    try {
+        const { username, email, password, gender, age } = req.body.user;
+        const emailExists = await User.findOne({ email });
         if (emailExists) {
-            return res.status(500).send({ message: "User already exists. Please Login" });
+            return res.status(409).send({ message: "User already exists. Please Login" });
         }
-        else {
-            // Create Instance
-            const user = new User({
-                username: username,
-                email: email,
-                password: password,
-                gender: gender,
-                age: age,
-                // listeningActivity: ""
-            });
-            // Save data
-            user.save((error) => {
-                if (error)
-                    return res.status(500).send({ message: error });
-                return res.status(200).send({ message: "User Details stored successfully" });
-            })
-        }
-    });
+        const newUser = new User({
+            username,
+            email,
+            password,
+            gender,
+            age,
+        });
+        await newUser.save();
+        return res.status(201).send({ message: "User details stored successfully" });
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+    }
 });
 
+// function authToken(req, res, next) {
+//     // get token verify and show home page
+//     const authHeader = req.headers['authorization']
+//     const token = authHeader && authHeader.split(' ')[1]
+//     if (token == null) return res.sendStatus(401)
 
-app.post("/login", (req, res) => {
-    const { email, password } = req.body.userLogin;
-    User.findOne({ email: email }, (err, userExists) => {
-        if (userExists && userExists.password === password) {
-            return res.send({ message: "Login Success", userDeets: userExists });
-        }
-        else if (err)
-            return res.send({ message: "Error Occured" });
-    })
+//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//         console.log(err)
+//         if (err) return res.sendStatus(403)
+//         req.user = user
+//         next()
+//     })
+// }
+app.post("/verifyAccessToken", async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).send({ message: "Access token missing" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        req.user = decoded;
+        return res.json(req.user);
+    } catch (err) {
+        return res.status(403).send({ message: "Invalid access token" });
+    }
 })
-
-// app.get('/csvdata', (req, res) => {
-//     csvtojson()
-//         .fromFile('./mrs_data_v1.csv')
-//         .then((json) => {
-//             res.json(json);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//             res.status(500).send('Error reading CSV file');
-//         });
-// });
-
-// app.get('/csvdata/:id', (req, res) => {
-//     var id = req.params.id;
-//     console.log(id);
-//     csvtojson()
-//         .fromFile('./mrs_data_v1.csv')
-//         .then((data) => {
-//             // console.log(id);
-//             const filterById = data.filter((d) => {
-//                 if (d['track_id'] === id) return (d);
-//             })
-//             res.send(filterById);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//             res.status(500).send('Error reading CSV file');
-//         });
-// });
+app.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body.userLogin;
+        const userExists = await User.findOne({ email });
+        if (!userExists) {
+            return res.status(404).send({ message: "User not found" });
+        }
+        if (userExists.password !== password) {
+            return res.status(401).send({ message: "Invalid password" });
+        }
+        const user = { email: userExists.email, password: userExists.password }
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+        return res.status(200).send({ message: "Login Success", userDeets: userExists, accessToken: accessToken });
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+    }
+});
 
 // Define a route for getting the audio features of a song
 app.get('/song-audio-features', (req, res) => {

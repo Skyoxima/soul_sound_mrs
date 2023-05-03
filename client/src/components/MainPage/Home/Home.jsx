@@ -15,13 +15,14 @@ function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const userState = JSON.parse(localStorage.getItem("userData"))?.data?.userDeets
+        const userState = JSON.parse(localStorage.getItem("userData"))
+        const userToken = localStorage.getItem("token")
         console.log(userState)
-        if (!userState) {
+        if (!userToken) {
             navigate("/login")
         } else {
             localStorage.setItem("currUser", userState?.username);
-            localStorage.setItem("currUserId", userState?._id);
+            localStorage.setItem("currUserId", userState?.id);
             setState(userState)
         }
     }, [])

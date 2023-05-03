@@ -16,15 +16,17 @@ function Login() {
             alert("Invalid Inputs");
             return;
         }
-        axios.post("http://localhost:3001/login", { userLogin }).then((data) => {
+        axios.post("http://localhost:3001/login", { userLogin }).then((res) => {
+            // localStorage.setItem("isLoginAuth", true);
+            // localStorage.setItem("userData", JSON.stringify(data))
+            localStorage.setItem("token", res.data.accessToken);
             localStorage.setItem("isLoginAuth", true);
-            localStorage.setItem("userData", JSON.stringify(data))
-            navigate("/home", { state: data.data.userDeets });
+            localStorage.setItem("userData", JSON.stringify({ username: res.data.userDeets.username, id: res.data.userDeets._id }))
+            console.log(res.data);
+            navigate("/home");
             window.location.reload(false);
-            console.log(data);
         }).catch(err => {
-            console.log(err);
-            // navigate("/error");
+            alert(err.response.data.message);
         })
     }
     // Handling Inputs
@@ -61,10 +63,6 @@ function Login() {
                             window.location.reload(false);
                         }}>SIGNUP</button>
                     </div>
-                    {/* <button className='spotify-btn'>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/991px-Spotify_icon.svg.png" alt="spotify" width={"20px"} />
-                        <a href={AUTH_URL}>SPOTIFY</a>
-                    </button> */}
                 </form>
             </main>
         </>

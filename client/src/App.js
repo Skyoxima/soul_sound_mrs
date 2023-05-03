@@ -3,11 +3,9 @@ import Login from './components/Login/Login';
 // import ErrorPage from './components/ErrorPage/ErrorPage';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import { createContext, useEffect, useState } from 'react';
-import Favorites from './components/MainPage/Favorites/Favorites';
 import Sidebar from './components/Sidebar/Sidebar';
 import Searchbar from './components/MainPage/Searchbar/Searchbar';
 import Albums from './components/MainPage/Albums/Albums';
-// import Artists from './components/MainPage/Artists/Artists';
 import Player from './components/MainPage/Player/Player';
 import Home from './components/MainPage/Home/Home';
 import RecommendQueue from './components/MainPage/RecommendQueue/RecommendQueue';
@@ -23,8 +21,11 @@ function App() {
 
   useEffect(() => {
     setIsSignupAuth(localStorage.getItem("isSignupAuth"));
-    setIsLoginAuth(localStorage.getItem("isLoginAuth"));
+    if (localStorage.getItem("token")) {
+      setIsLoginAuth(localStorage.getItem("isLoginAuth"));
+    }
   }, []);
+
   return (
     <div className="App">
       <Router>
@@ -37,17 +38,13 @@ function App() {
                 </div>
                 <currTrackContext.Provider value={{ currTrack, setCurrTrack }}>
                   <div className='center'>
-                    <Searchbar
-                      setCurrTrack={setCurrTrack}
-                    />
+                    <Searchbar />
                     <Routes>
                       <Route exact path='/' element={(!isLoginAuth) ? (<Login />) : (<Home />)} />
                       <Route path='/login' element={<Login />} />
                       <Route path='/home' element={<Home />} />
                       <Route path='/albums' element={<Albums />} />
                       <Route path='/recommends' element={<Recommends />} />
-                      {/* <Route path='/artists' element={<Artists />} />  */}
-                      <Route path='/favorites' element={<Favorites />} />
                       <Route path="/signup" element={<Signup />} />
                       {/* <Route path="/logout" element={<Link to="/" />} /> */}
                       {/* <Route path='*' element={<ErrorPage />} /> */}
