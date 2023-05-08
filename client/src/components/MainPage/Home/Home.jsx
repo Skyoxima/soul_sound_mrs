@@ -6,11 +6,12 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
+import he from 'he';
+
 
 function Home() {
     const [charts, setCharts] = useState([]);
     const { setCurrTrack } = useContext(currTrackContext);
-    // const { state } = useLocation();
     const [state, setState] = useState(null)
     const navigate = useNavigate();
 
@@ -97,7 +98,7 @@ function Home() {
                                                 className="homecard-image"
                                                 alt="homecard"
                                             />
-                                            <p className="homecard-title">{song.name}</p>
+                                            <p className="homecard-title">{he.decode(song.name)}</p>
                                         </div>
                                     </div>
                                 ))}

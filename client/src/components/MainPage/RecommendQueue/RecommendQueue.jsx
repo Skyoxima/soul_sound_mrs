@@ -11,6 +11,7 @@ function RecommendQueue() {
         axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: currTrack?.name } })
             .then(response => {
                 setUpNextTracks(response.data);
+                console.log(response.data);
             })
             .catch(error => {
                 console.error(error);
@@ -26,7 +27,6 @@ function RecommendQueue() {
     const handleReccClick = (track) => {
         axios.get("https://saavn.me/songs?id=" + track?.track_id).then(data => {
             setCurrTrack(data.data.data[0])
-            // console.log(data.data.data[0]);
         })
     }
     return (
@@ -42,7 +42,6 @@ function RecommendQueue() {
                         >
                             <p className="track-name">{track?.track_name}</p>
                             <p>{0 + convertDuration(`${track?.duration_ms}`)}</p>
-                            {/* <p>{`0${Math.floor((track?.duration_ms) / (1000 * 60) % 60)}:${Math.floor(((track?.duration_ms)) % 60)}`}</p> */}
                         </div>
                     ))}
                 </div>

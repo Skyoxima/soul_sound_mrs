@@ -2,14 +2,15 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { currTrackContext } from '../../../App';
 import './Recommends.css';
-
+import he from 'he';
 
 function Recommends() {
   const [recommendations, setRecommendations] = useState([]);
   const { currTrack, setCurrTrack } = useContext(currTrackContext);
-
+  
   useEffect(() => {
-    axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: currTrack?.name } })
+    const songName = he.decode(currTrack?.name);
+    axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: songName } })
       .then(response => {
         setRecommendations(response.data);
       })
@@ -38,7 +39,6 @@ function Recommends() {
             >
               <img
                 src={song?.track_image}
-                // src={"https://img.freepik.com/free-icon/user_318-804790.jpg"}
                 alt="Playlist-Art"
                 width={"100px"}
               />

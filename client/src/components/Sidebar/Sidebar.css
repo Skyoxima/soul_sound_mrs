@@ -49,6 +49,25 @@
 
 .sidebar-signout {
     width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 30px auto;
+    padding: 0 15px;
+    transition: all 0.2s ease;
+    background-color: rgba(244, 187, 146, 0.0);
+}
+
+.sidebar-signout button{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: black;
+    border: none;
+    color: #F8D9C0;
+    cursor: pointer;
 }
 
 .profile-img {

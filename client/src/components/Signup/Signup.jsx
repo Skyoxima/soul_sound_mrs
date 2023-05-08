@@ -28,10 +28,10 @@ function Signup() {
     else {
       await axios.post("http://localhost:3001/signup", { user })
         .then(data => {
-          localStorage.setItem("isSignupAuth", true);
+          // localStorage.setItem("isSignupAuth", true);
           navigate("/login");
-          window.location.reload(false);
-          console.log(data);
+          // window.location.reload(false);
+          // console.log(data);
         }).catch(err => {
           alert(err.response.data.message);
         })
@@ -82,7 +82,7 @@ function Signup() {
           <p>OR</p>
           <button type='submit' className='submit-btn' onClick={(e) => {
             e.preventDefault();
-            localStorage.setItem("isSignupAuth", true);
+            // localStorage.setItem("isSignupAuth", true);
             navigate("/login");
             window.location.reload(false);
           }}>LOGIN</button>

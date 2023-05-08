@@ -17,14 +17,9 @@ function Login() {
             return;
         }
         axios.post("http://localhost:3001/login", { userLogin }).then((res) => {
-            // localStorage.setItem("isLoginAuth", true);
-            // localStorage.setItem("userData", JSON.stringify(data))
             localStorage.setItem("token", res.data.accessToken);
-            localStorage.setItem("isLoginAuth", true);
             localStorage.setItem("userData", JSON.stringify({ username: res.data.userDeets.username, id: res.data.userDeets._id }))
-            console.log(res.data);
             navigate("/home");
-            window.location.reload(false);
         }).catch(err => {
             alert(err.response.data.message);
         })
@@ -58,9 +53,7 @@ function Login() {
                         <p>OR</p>
                         <button type='submit' className='submit-btn' onClick={(e) => {
                             e.preventDefault();
-                            localStorage.removeItem("isSignupAuth");
                             navigate("/signup");
-                            window.location.reload(false);
                         }}>SIGNUP</button>
                     </div>
                 </form>

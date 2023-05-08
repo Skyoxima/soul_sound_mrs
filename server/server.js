@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const SpotifyWebApi = require('spotify-web-api-node');
 const jwt = require('jsonwebtoken');
+const he = require('he');
 
 const app = express();
 require('dotenv').config();
@@ -74,41 +75,6 @@ const User = mongoose.model('User', userSchema, 'users');
 const Music = mongoose.model('Music', musicSchema, 'music');
 
 // Route setup
-// app.post('/signup', async (req, res) => {
-//     const { username, email, password, gender, age } = req.body.user;
-//     User.findOne({ email: email }, function (err, emailExists) {
-//         if (emailExists) {
-//             return res.status(500).send({ message: "User already exists. Please Login" });
-//         }
-//         else {
-//             // Create Instance
-//             const user = new User({
-//                 username: username,
-//                 email: email,
-//                 password: password,
-//                 gender: gender,
-//                 age: age,
-//             });
-//             // Save data
-//             user.save((error) => {
-//                 if (error)
-//                     return res.status(500).send({ message: error });
-//                 return res.status(200).send({ message: "User Details stored successfully" });
-//             })
-//         }
-//     });
-// });
-// app.post("/login", (req, res) => {
-//     const { email, password } = req.body.userLogin;
-//     User.findOne({ email: email }, (err, userExists) => {
-//         if (userExists && userExists.password === password) {
-//             return res.status(200).send({ message: "Login Success", userDeets: userExists });
-//         }
-//         else if (err)
-//             return res.status(500).send({ message: "Error Occured" });
-//     })
-// })
-
 app.post('/signup', async (req, res) => {
     try {
         const { username, email, password, gender, age } = req.body.user;
@@ -130,19 +96,6 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// function authToken(req, res, next) {
-//     // get token verify and show home page
-//     const authHeader = req.headers['authorization']
-//     const token = authHeader && authHeader.split(' ')[1]
-//     if (token == null) return res.sendStatus(401)
-
-//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-//         console.log(err)
-//         if (err) return res.sendStatus(403)
-//         req.user = user
-//         next()
-//     })
-// }
 app.post("/verifyAccessToken", async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -237,14 +190,11 @@ app.post("/addMusic", (req, res) => {
         tempo,
         time_signature,
         valence } = req.body.musicData;
-    if (name.includes('&quot;')) {
-        name = name.replace(/&quot;/g, "'");
-    }
     Music.findOne({ track_id: id }, (err, trackExists) => {
         if (!trackExists) {
             const music = new Music({
                 track_id: id,
-                track_name: name,
+                track_name: he.decode(name),
                 duration: duration,
                 primary_artists: primaryArtists,
                 language: language,

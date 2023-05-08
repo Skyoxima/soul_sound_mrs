@@ -2,18 +2,18 @@ import React, { useContext, useEffect } from 'react'
 import { currTrackContext } from '../../../App';
 import ReactAudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
-// import apiClient from '../../../spotify';
 import './Player.css';
 import './audioPlayer.scss'
 import axios from 'axios';
+import he from 'he';
+
 function Player() {
 
   const { currTrack, setCurrTrack } = useContext(currTrackContext);
   const noSongImage = "https://cdn.pixabay.com/photo/2016/05/24/22/54/icon-1413583_960_720.png";
-  // console.log(currTrack);
   useEffect(() => {
     if (currTrack) {
-      axios.post("http://localhost:3001/addMusicToListeningHistory", { currTrackId: currTrack?.id, currUserId: localStorage.getItem("currUserId") }).then(data => {
+      axios.post("http://localhost:3001/addMusicToListeningHistory", { currTrackId: currTrack?.id, currUserId: localStorage.getItem("currUserId") }).then(() => {
       }).catch(err => {
         console.log(err);
       })
@@ -44,7 +44,7 @@ function Player() {
       <div className="songInfo-card">
         <div className="songName-container">
           <div className="marquee">
-            <p>{currTrack ? (currTrack?.name + " - " + currTrack?.primaryArtists) : ("Click on a Song to play")}</p>
+            <p>{currTrack ? (he.decode(currTrack?.name) + " - " + currTrack?.primaryArtists) : ("Click on a Song to play")}</p>
           </div>
         </div>
       </div>
@@ -54,9 +54,6 @@ function Player() {
           autoPlay={false}
           controls
           loop={true}
-        // onPlay={onPlay}
-        // onPause={onPause}
-        // onEnded={onEnded}
         />
       </div>
 
