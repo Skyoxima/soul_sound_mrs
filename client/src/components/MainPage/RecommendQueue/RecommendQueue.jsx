@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './RecommendQueue.css';
-import { currTrackContext } from '../../../App';
+import { currTrackContext, reccTrackContext } from '../../../App';
 import axios from 'axios';
 
 function RecommendQueue() {
     const [upNextTracks, setUpNextTracks] = useState([]);
     const { currTrack, setCurrTrack } = useContext(currTrackContext);
+    const { reccTrack, setReccTrack } = useContext(reccTrackContext);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: currTrack?.name } })
-            .then(response => {
-                setUpNextTracks(response.data);
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            })
+        if (!reccTrack) {
+            axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: currTrack?.name } })
+                .then(response => {
+                    setUpNextTracks(response.data);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
     }, [currTrack])
 
     function convertDuration(durationInMs) {
@@ -26,7 +29,8 @@ function RecommendQueue() {
 
     const handleReccClick = (track) => {
         axios.get("https://saavn.me/songs?id=" + track?.track_id).then(data => {
-            setCurrTrack(data.data.data[0])
+            setCurrTrack(data.data.data[0]);
+            setReccTrack(true);
         })
     }
     return (

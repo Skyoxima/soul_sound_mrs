@@ -27,7 +27,7 @@ function Signup() {
     }
     else {
       await axios.post("http://localhost:3001/signup", { user })
-        .then(data => {
+        .then(() => {
           // localStorage.setItem("isSignupAuth", true);
           navigate("/login");
           // window.location.reload(false);

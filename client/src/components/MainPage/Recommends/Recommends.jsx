@@ -1,27 +1,34 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
-import { currTrackContext } from '../../../App';
+import { currTrackContext, reccTrackContext } from '../../../App';
 import './Recommends.css';
 import he from 'he';
 
 function Recommends() {
   const [recommendations, setRecommendations] = useState([]);
   const { currTrack, setCurrTrack } = useContext(currTrackContext);
-  
+  const { reccTrack, setReccTrack } = useContext(reccTrackContext);
+
   useEffect(() => {
-    const songName = he.decode(currTrack?.name);
-    axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: songName } })
-      .then(response => {
-        setRecommendations(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      })
+    if (!reccTrack) {
+      var songName = null;
+      if (currTrack) {
+        songName = he.decode(currTrack?.name);
+      }
+      axios.get('http://localhost:5000/recommend', { params: { curr_user_id: localStorage.getItem("currUserId"), song_name: songName } })
+        .then(response => {
+          setRecommendations(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    }
   }, [currTrack])
 
   const handleClick = async (song) => {
     await axios.get(`https://saavn.me/songs?link=${song.track_url}`).then((res) => {
       setCurrTrack(res.data.data[0]);
+      setReccTrack(true);
     }).catch(err => {
       console.log(err);
     })

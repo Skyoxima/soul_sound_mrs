@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { currTrackContext } from '../../../App';
+import { currTrackContext, reccTrackContext } from '../../../App';
 import './Home.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -12,6 +12,7 @@ import he from 'he';
 function Home() {
     const [charts, setCharts] = useState([]);
     const { setCurrTrack } = useContext(currTrackContext);
+    const { setReccTrack } = useContext(reccTrackContext);
     const [state, setState] = useState(null)
     const navigate = useNavigate();
 
@@ -60,6 +61,7 @@ function Home() {
     }, [])
     const handlePlayTrack = async (currSong) => {
         setCurrTrack(currSong);
+        setReccTrack(false);
         var spotifyData = {}
         await axios.get(`http://localhost:3001/song-audio-features?songName=${currSong.name}`)
             .then(res => {
@@ -83,14 +85,13 @@ function Home() {
                 {/* OPTIMISED */}
                 {charts.map(chart => {
                     return (<>
-                        <h2 className='home-title'>{chart.title}</h2>
-                        <div className='homecards' key={chart.title}>
+                        <h2 className='home-title' key={chart.title}>{chart.title}</h2>
+                        <div className='homecards'>
                             <Slider {...settings}>
                                 {chart.songs?.map((song) => (
-                                    <div>
+                                    <div key={song.id}>
                                         <div
                                             className="homecard"
-                                            key={song.id}
                                             onClick={() => handlePlayTrack(song)}
                                         >
                                             <img

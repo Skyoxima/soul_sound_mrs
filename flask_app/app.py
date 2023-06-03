@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
-import pandas as pd
 from mrs import generate_recommendations
 import flask_cors
+import html
 
 app = Flask(__name__)
 flask_cors.CORS(app)
@@ -21,6 +21,7 @@ def get_recommendations():
         recc_data = generate_recommendations(curr_user_id, song_name=None)
         return recc_data.to_json(orient='records')
     elif len(song_name) > 0:
+        song_name = html.unescape(song_name)
         recc_data = generate_recommendations(curr_user_id, song_name)
         return recc_data.to_json(orient='records')
     else:

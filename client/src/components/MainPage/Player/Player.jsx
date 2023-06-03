@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { currTrackContext } from '../../../App';
+import { currTrackContext, reccTrackContext } from '../../../App';
 import ReactAudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import './Player.css';
@@ -19,8 +19,8 @@ function Player() {
       })
     }
     else {
-      axios.get("http://localhost:3001/getLastListenedMusic?currUserId=" + localStorage.getItem("currUserId")).then(data => {
-        axios.get("https://saavn.me/songs?id=" + data.data.lastListenedMusic).then(data => {
+      axios.get("http://localhost:3001/getLastListenedMusic?currUserId=" + localStorage.getItem("currUserId")).then(res => {
+        axios.get("https://saavn.me/songs?id=" + res.data.lastListenedMusic).then(data => {
           setCurrTrack(data.data.data[0])
         })
       }).catch(err => {
