@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Sidebar from '../Sidebar/Sidebar'
 import Searchbar from '../MainPage/Searchbar/Searchbar'
 import Player from '../MainPage/Player/Player'

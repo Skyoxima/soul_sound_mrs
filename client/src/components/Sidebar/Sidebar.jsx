@@ -33,18 +33,12 @@ function Sidebar() {
         </div>
         <div className='sidebar-btns'>
           <SidebarButton title="Home" to="/home" icon={<MdSpaceDashboard />} />
-          {/* <SidebarButton title="Albums" to="/albums" icon={<IoLibrary />} /> */}
           <SidebarButton title="Recommends" to="/recommends" icon={<FaGripfire />} />
-          {/* <SidebarButton title="Favorites" to="/favorites" icon={<MdFavorite />} /> */}
         </div>
       </div>
       <div className='sidebar-signout'>
-        {/* <SidebarButton title="Log Out" to="/logout" icon={<FaSignOutAlt />} /> */}
         <button onClick={() => {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userData");
-          localStorage.removeItem("currUserId");
-          localStorage.removeItem("currUser");
+          localStorage.clear();
           setCurrTrack(null);
           navigate("/login");
         }}>

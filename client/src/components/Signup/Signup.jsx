@@ -16,6 +16,7 @@ function Signup() {
     gender: "",
     age: ""
   })
+
   // Handling Submit
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
@@ -28,15 +29,13 @@ function Signup() {
     else {
       await axios.post("http://localhost:3001/signup", { user })
         .then(() => {
-          // localStorage.setItem("isSignupAuth", true);
           navigate("/login");
-          // window.location.reload(false);
-          // console.log(data);
         }).catch(err => {
           alert(err.response.data.message);
         })
     }
   }
+
   // Handling Inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -64,7 +63,6 @@ function Signup() {
         </div>
         <div className='form-input'>
           <label name="gender">Gender</label>
-          {/* <input value={user.gender} name="gender" onChange={handleInputChange} placeholder="Enter your gender"></input> */}
           <input type="radio" name="gender" value="male" onChange={handleInputChange} />
           <label>Male</label>
           <input type="radio" name="gender" value="female" onChange={handleInputChange} />
@@ -81,10 +79,7 @@ function Signup() {
           }}>SIGNUP</button>
           <p>OR</p>
           <button type='submit' className='submit-btn' onClick={(e) => {
-            e.preventDefault();
-            // localStorage.setItem("isSignupAuth", true);
             navigate("/login");
-            window.location.reload(false);
           }}>LOGIN</button>
         </div>
       </form>

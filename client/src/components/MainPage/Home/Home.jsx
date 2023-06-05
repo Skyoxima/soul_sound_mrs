@@ -38,6 +38,7 @@ function Home() {
         autoplaySpeed: 3000,
         pauseOnHover: true,
     };
+    
     useEffect(() => {
         // SAAVN CODE
         if (charts.length === 0) {
@@ -59,6 +60,7 @@ function Home() {
             return;
         }
     }, [])
+
     const handlePlayTrack = async (currSong) => {
         setCurrTrack(currSong);
         setReccTrack(false);
@@ -78,6 +80,7 @@ function Home() {
             console.log(err);
         })
     }
+    
     return (
         state && (<div className="main-container">
             <div className="home-content">

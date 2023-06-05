@@ -17,7 +17,6 @@ music_df["primary_artists"] = music_df["primary_artists"].str.replace(" ", "")
 music_df["primary_artists"] = music_df["primary_artists"].str.replace(",", " ")
 
 ### Content Based Recommendation on Artists
-
 cv = CountVectorizer()
 count_matrix = cv.fit_transform(music_df['primary_artists'])
 tokens = cv.get_feature_names_out()
@@ -32,7 +31,6 @@ def recommend_artist(name,count):
   return music_df.iloc[song_idxs]
 
 ### Content Based Recommendation on Song Features
-
 music_df[['energy','instrumentalness','key','liveness','loudness','speechiness','tempo','valence']] = music_df[['energy','instrumentalness','key','liveness','loudness','speechiness','tempo','valence']].fillna(value=0)
 
 def recommend_soundSim(name,count):
@@ -44,13 +42,11 @@ def recommend_soundSim(name,count):
     return sim_song.iloc[1:count+1]
 
 ### Popularity Based Recommendation
-
 def recommend_popularity(music_df, count):
   train_data_grouped = music_df.sort_values(['play_count'],ascending=False)
   return train_data_grouped.iloc[:count]
 
 ### Collaborative Based Recommendation
-
 def recommend_collaborative(curr_user_id, count):
     users_collection = db['users']
     users_df = pd.DataFrame(list(users_collection.find())).drop(columns="__v", axis=1)

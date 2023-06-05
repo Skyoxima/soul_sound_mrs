@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { currTrackContext, reccTrackContext } from '../../../App';
+import { currTrackContext } from '../../../App';
 import ReactAudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import './Player.css';
@@ -21,23 +21,23 @@ function Player() {
     else {
       axios.get("http://localhost:3001/getLastListenedMusic?currUserId=" + localStorage.getItem("currUserId")).then(res => {
         axios.get("https://saavn.me/songs?id=" + res.data.lastListenedMusic).then(data => {
-          setCurrTrack(data.data.data[0])
+          setCurrTrack(data.data.data[0]);
         })
       }).catch(err => {
         console.log(err);
       })
     }
   }, [currTrack])
-
+  console.log(currTrack);
   return (
     <div className="player-body">
       <div className="songImage">
         <img
-          src={currTrack?.image[2]?.link ? (currTrack?.image[2].link) : (noSongImage)}
+          src={currTrack?.image[2]?.link ? (currTrack?.image[2]?.link) : (noSongImage)}
           alt="song art" />
         <div className="songImage-shadow">
           <img
-            src={currTrack?.image[2]?.link ? (currTrack?.image[2].link) : (noSongImage)}
+            src={currTrack?.image[2]?.link ? (currTrack?.image[2]?.link) : (noSongImage)}
             alt="shadow" className="songImage-shadow" />
         </div>
       </div>

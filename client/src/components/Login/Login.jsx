@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './Login.css';
 import axios from "axios";
+
+import './Login.css';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -10,6 +11,8 @@ function Login() {
         email: "",
         password: "",
     })
+
+    // Handle Submit
     const handleLoginSubmit = (e) => {
         e.preventDefault();
         if (!userLogin.email || !userLogin.password) {
@@ -24,6 +27,7 @@ function Login() {
             alert(err.response.data.message);
         })
     }
+
     // Handling Inputs
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -34,31 +38,29 @@ function Login() {
     }
 
     return (
-        <>
-            <main className='login-page'>
-                <form className='login-form'>
-                    <h1>LOGIN</h1>
-                    <div className='form-input'>
-                        <label name="email">Email</label>
-                        <input type="email" name="email" value={userLogin.email} onChange={handleInputChange} placeholder="Enter your email" required />
-                    </div>
-                    <div className='form-input'>
-                        <label name="password">Password</label>
-                        <input type="password" name="password" value={userLogin.password} onChange={handleInputChange} placeholder="Enter your password" required />
-                    </div>
-                    <div className='form-btn'>
-                        <button type='submit' className='submit-btn' onClick={(e) => {
-                            handleLoginSubmit(e);
-                        }}>LOGIN</button>
-                        <p>OR</p>
-                        <button type='submit' className='submit-btn' onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/signup");
-                        }}>SIGNUP</button>
-                    </div>
-                </form>
-            </main>
-        </>
+        <main className='login-page'>
+            <form className='login-form'>
+                <h1>LOGIN</h1>
+                <div className='form-input'>
+                    <label name="email">Email</label>
+                    <input type="email" name="email" value={userLogin.email} onChange={handleInputChange} placeholder="Enter your email" required />
+                </div>
+                <div className='form-input'>
+                    <label name="password">Password</label>
+                    <input type="password" name="password" value={userLogin.password} onChange={handleInputChange} placeholder="Enter your password" required />
+                </div>
+                <div className='form-btn'>
+                    <button type='submit' className='submit-btn' onClick={(e) => {
+                        handleLoginSubmit(e);
+                    }}>LOGIN</button>
+                    <p>OR</p>
+                    <button type='submit' className='submit-btn' onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/signup");
+                    }}>SIGNUP</button>
+                </div>
+            </form>
+        </main>
     )
 }
 
