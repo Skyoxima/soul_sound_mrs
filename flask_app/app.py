@@ -30,4 +30,4 @@ def get_recommendations():
         return jsonify({'error': 'song_name parameter is missing'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0')
