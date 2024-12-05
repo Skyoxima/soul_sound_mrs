@@ -6,12 +6,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
 # MONGODB CONNECTION
-client = MongoClient("mongodb+srv://abc123:mongodb@mycluster.ejia9i8.mongodb.net/soulsound-music")
-db = client['soulsound-music']
+# client = MongoClient("mongodb+srv://abc123:mongodb@mycluster.ejia9i8.mongodb.net/soulsound-music")
+client = MongoClient("mongodb+srv://samarthtumdi:jBMV5YERSUiirL2j@firstcluster.jdjssak.mongodb.net/soul-sound-mrs")
+db = client['soul-sound-mrs']
 users_collection = db['users']
+users_df = pd.DataFrame(list(users_collection.find()))
+
 music_collection = db['music']
-users_df = pd.DataFrame(list(users_collection.find())).drop(columns="__v", axis=1)
+# users_df = pd.DataFrame(list(users_collection.find())).drop(columns="__v", axis=1)
+users_df = pd.DataFrame(list(users_collection.find()))
 music_df = pd.DataFrame(list(music_collection.find())).drop(columns=["_id", "__v"], axis=1)
+# music_df = pd.DataFrame(list(music_collection.find()))
 
 music_df["primary_artists"] = music_df["primary_artists"].str.replace(" ", "")
 music_df["primary_artists"] = music_df["primary_artists"].str.replace(",", " ")
@@ -49,7 +54,9 @@ def recommend_popularity(music_df, count):
 ### Collaborative Based Recommendation
 def recommend_collaborative(curr_user_id, count):
     users_collection = db['users']
-    users_df = pd.DataFrame(list(users_collection.find())).drop(columns="__v", axis=1)
+    # users_df = pd.DataFrame(list(users_collection.find())).drop(columns="__v", axis=1)
+    users_df = pd.DataFrame(list(users_collection.find()))
+    print(users_df)
     # Step 1: Create user listening history
     user_listening_history = { 
         str(users_df.iloc[idx]["_id"]): users_df.iloc[idx]['listeningActivity'] for idx in range(len(users_df)) 

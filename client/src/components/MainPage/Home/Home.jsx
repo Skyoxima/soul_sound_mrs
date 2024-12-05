@@ -42,15 +42,17 @@ function Home() {
     useEffect(() => {
         // SAAVN CODE
         if (charts.length === 0) {
-            axios.get("https://saavn.me/modules?language=hindi,english")
+            axios.get("https://saavn.dev/api/search/playlists?query=Indie")
                 .then(res => {
-                    return res.data.data.charts.slice(0, 5);
+                    return res.data.data.results.slice(0, 5);
                 })
                 .then(res => {
                     res.forEach(ele => {
+                        console.log(ele)
                         const chartId = ele.id;
-                        const chartTitle = ele.title;
-                        axios.get(`https://saavn.me/playlists?id=${chartId}`).then(response => {
+                        const chartTitle = ele.name;
+                        axios.get(`https://saavn.dev/api/search/playlists/${chartId}`).then(response => {
+                            console.log(response.data)
                             setCharts(prevState => [...prevState, { title: chartTitle, songs: response.data.data.songs.slice(0, 10) }]);
                         })
                     })

@@ -17,6 +17,7 @@ def add_cors_headers(response):
 def get_recommendations():
     song_name = request.args.get('song_name')
     curr_user_id = request.args.get('curr_user_id')
+
     if song_name == None:
         recc_data = generate_recommendations(curr_user_id, song_name=None)
         return recc_data.to_json(orient='records')

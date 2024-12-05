@@ -28,7 +28,7 @@ function Player() {
       })
     }
   }, [currTrack])
-  console.log(currTrack);
+  console.log("Current Track: ", currTrack);
   return (
     <div className="player-body">
       <div className="songImage">

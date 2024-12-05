@@ -4,5 +4,9 @@
   },
   "scripts": {
     "start": "concurrently \"cd client && npm start\" \"cd server && node server.js\""
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "mongoose": "^8.8.3"
   }
 }
